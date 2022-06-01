@@ -21,17 +21,18 @@ import torch
 
 class EnglishBookNLP:
 
-	def __init__(self, model_params):
+	def __init__(self, model_params): # when creating new instance of EnglishBookNLP, give it model parameters (a dict)
 
-		with torch.no_grad():
+		with torch.no_grad(): # disabled gradient calculation
 
-			start_time = time.time()
+			start_time = time.time() # log start time
 
-			print(model_params)
+			print(model_params) #print model parameters
 
-			spacy_model="en_core_web_sm"
-			if "spacy_model" in model_params:
-				spacy_model=model_params["spacy_model"]
+			# spacy: pipelines and models for a lot of languages
+			spacy_model="en_core_web_sm" # default spacy model: English pipeline, size = small
+			if "spacy_model" in model_params: # if spacy model provided by user
+				spacy_model=model_params["spacy_model"] # use provided spacy model
 
 			spacy_nlp = spacy.load(spacy_model, disable=["ner"])
 
@@ -101,7 +102,7 @@ class EnglishBookNLP:
 
 			self.doEntities=self.doCoref=self.doQuoteAttrib=self.doSS=self.doEvent=False
 
-			for pipe in pipes:
+			for pipe in pipes: # for each componenet of the pipeline that is specified in the model_params dict
 				if pipe not in valid_keys:
 					print("unknown pipe: %s" % pipe)
 					sys.exit(1)
@@ -130,6 +131,7 @@ class EnglishBookNLP:
 			if "pronominalCorefOnly" in model_params:
 				pronominalCorefOnly=model_params["pronominalCorefOnly"]
 
+			# check the dependencies of some pipes
 			if not self.doEntities and self.doCoref:
 				print("coref requires entity tagging")
 				sys.exit(1)
@@ -142,12 +144,12 @@ class EnglishBookNLP:
 				sys.exit(1)	
 
 
-			self.quoteTagger=QuoteTagger()
+			self.quoteTagger=QuoteTagger() # in litbank_quote.py
 
 			if self.doEntities:
-				self.entityTagger=LitBankEntityTagger(self.entityPath, tagsetPath)
+				self.entityTagger=LitBankEntityTagger(self.entityPath, tagsetPath) # in entity_tagger.py
 				aliasPath = pkg_resources.resource_filename(__name__, "data/aliases.txt")
-				self.name_resolver=NameCoref(aliasPath)
+				self.name_resolver=NameCoref(aliasPath) # method that groups together different proper names for the same individual (in name_coref.py)
 
 
 			if self.doQuoteAttrib:
@@ -336,7 +338,7 @@ class EnglishBookNLP:
 			start_time = time.time()
 			originalTime=start_time
 
-			with open(filename) as file:
+			with open(filename) as file: # open the book txt file to be processed
 				data=file.read()
 
 				if len(data) == 0:
@@ -349,19 +351,19 @@ class EnglishBookNLP:
 					pass
 
 					
-				tokens=self.tagger.tag(data)
+				tokens=self.tagger.tag(data) # tokenize the book txt file
 				
 				print("--- spacy: %.3f seconds ---" % (time.time() - start_time))
-				start_time=time.time()
+				start_time=time.time() # reset the time for the next step
 
 				if self.doEvent or self.doEntities or self.doSS:
-
+					# perform event annotation, entity annotation, and supersense tagging
 					entity_vals=self.entityTagger.tag(tokens, doEvent=self.doEvent, doEntities=self.doEntities, doSS=self.doSS)
-					entity_vals["entities"]=sorted(entity_vals["entities"])
-					if self.doSS:
+					entity_vals["entities"]=sorted(entity_vals["entities"]) # extract all entities
+					if self.doSS: # if supersense is part of the pipeline, output .supersense file
 						supersense_entities=entity_vals["supersense"]
 						with open(join(outFolder, "%s.supersense" % (idd)), "w", encoding="utf-8") as out:
-							out.write("start_token\tend_token\tsupersense_category\ttext\n")
+							out.write("start_token\tend_token\tsupersense_category\ttext\n") # header of the output file
 							for start, end, cat, text in supersense_entities:
 								out.write("%s\t%s\t%s\t%s\n" % (start, end, cat, text))
 
@@ -369,8 +371,9 @@ class EnglishBookNLP:
 						events=entity_vals["events"]
 						for token in tokens:
 							if token.token_id in events:
-								token.event="EVENT"
+								token.event="EVENT" # for each token that is identified as an event, change its event attribute to the str "EVENT" (otherwise, val=0)
 
+					# output .tokens file
 					with open(join(outFolder, "%s.tokens" % (idd)), "w", encoding="utf-8") as out:
 						out.write("%s\n" % '\t'.join(["paragraph_ID", "sentence_ID", "token_ID_within_sentence", "token_ID_within_document", "word", "lemma", "byte_onset", "byte_offset", "POS_tag", "fine_POS_tag", "dependency_relation", "syntactic_head_ID", "event"]))
 						for token in tokens:
@@ -380,6 +383,7 @@ class EnglishBookNLP:
 					start_time=time.time()
 
 				in_quotes=[]
+				# use the quote Tagger to extract all direct quotes
 				quotes=self.quoteTagger.tag(tokens)
 
 				print("--- quotes: %.3f seconds ---" % (time.time() - start_time))

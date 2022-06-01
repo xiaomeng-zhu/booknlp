@@ -103,7 +103,7 @@ class LitBankEntityTagger:
 
 			wptok=tok.text
 			# working with uncased BERT models, so add a special tag to denote capitalization
-			if wptok[0].lower() != wptok[0]:
+			if wptok[0].lower() != wptok[0]: # if the token is capitalized, append the string "[CAP] " to the beginning
 				wptok="[CAP] " + wptok.lower()
 
 			toks=self.model.tokenizer.tokenize(wptok)
