@@ -30,6 +30,7 @@ class QuoteTagger:
 
 			w=tok.text
 
+			# for every character in the token
 			for w_idx, w_char in enumerate(w):
 				if w_char== "“" or w_char == "”" or w_char == "\"":
 					w="DOUBLE_QUOTE"
@@ -68,7 +69,7 @@ class QuoteTagger:
 
 		for start, end in predictions:
 			for i in range(start, end+1):
-				toks[i].inQuote=True
+				toks[i].inQuote=True # if a token is inside a quote, set inQuote attribute to True
 
 		return predictions
 

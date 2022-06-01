@@ -126,7 +126,7 @@ class EnglishBookNLP:
 			else:
 				self.gender_hyperparameterFile = pkg_resources.resource_filename(__name__, "data/gutenberg_prop_gender_terms.txt")
 			
-			pronominalCorefOnly=True
+			pronominalCorefOnly=True # by default, corefering common entities to named entities is disallowed
 
 			if "pronominalCorefOnly" in model_params:
 				pronominalCorefOnly=model_params["pronominalCorefOnly"]
@@ -159,7 +159,7 @@ class EnglishBookNLP:
 			if self.doCoref:
 				self.litbank_coref=LitBankCoref(self.coref_model, self.gender_cats, pronominalCorefOnly=pronominalCorefOnly)
 
-			self.tagger=SpacyPipeline(spacy_nlp)
+			self.tagger=SpacyPipeline(spacy_nlp) # use spaCy for part of speech tagging
 
 			print("--- startup: %.3f seconds ---" % (time.time() - start_time))
 
@@ -402,8 +402,10 @@ class EnglishBookNLP:
 
 					entities=entity_vals["entities"]
 		
-					in_quotes=[]
+					in_quotes=[] # 
 
+					# iterate through every entity and fill in the in_quotes list that has an equal length
+					# with each element indicating if this entity is in a quote (1 for in quote and 0 otherwise)
 					for start, end, cat, text in entities:
 	
 						if tokens[start].inQuote or tokens[end].inQuote:
@@ -506,7 +508,7 @@ class EnglishBookNLP:
 						else:
 							names[coref][text.lower()]+=.001
 
-
+					# write to book.html file with annotated full text
 					with open(join(outFolder, "%s.book.html" % (idd)), "w", encoding="utf-8") as out:
 						out.write("<html>")
 						out.write("""<head>

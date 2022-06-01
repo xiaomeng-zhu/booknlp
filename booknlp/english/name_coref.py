@@ -292,20 +292,23 @@ class NameCoref:
 		max_id=1
 		if len(refs) > 0:
 			max_id=max(refs)+1
+			# if the function call that precedes the current one is cluster_narrator, max_id = 1
 
-		names={}
+		names={} # a dictionary that gives a numbering to entities that are proper nouns but not persons
 
 		for idx, (s, e, full_cat, name) in enumerate(entities):
 			prop=full_cat.split("_")[0]
 			cat=full_cat.split("_")[1]
 			
-			if prop == "PROP" and cat != "PER":
+			# if the entity is a proper noun and not a person, (e.g. who, prop_who, cat_who; wto, prop_wto, cat_wto)
+			# change the corresponding item in refs into
+			if prop == "PROP" and cat != "PER":  
 				n=name.lower()
 				key="%s_%s_%s" % (n, prop, cat)
 				if key not in names:
 					names[key]=max_id
 					max_id+=1
-				refs[idx]=names[key]
+				refs[idx]=names[key] # set the corresponding item in ref to be the id in names
 
 		return refs
 
@@ -342,6 +345,7 @@ class NameCoref:
 
 		narrator_pronouns=set(["i", "me", "my", "myself"])
 		refs=[]
+		# for each identity that is recognized, if the entity is a narrator, append 0 to the list, -1 otherwise
 		for idx, (s, e, _, name) in enumerate(entities):
 			if in_quotes[idx] == 0 and name.lower() in narrator_pronouns:
 				refs.append(0)
