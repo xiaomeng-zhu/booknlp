@@ -117,7 +117,7 @@ class NameCoref:
 					if name != "":
 						uniq[name]+=1
 
-		
+		# Question: how does this code deal with the possibility that there are multiple Toms in the text
 		"""
 
 		Remove names that are complete subsets of others
@@ -194,6 +194,7 @@ class NameCoref:
 		mainly being the location of the last assigned mention of that entity)
 
 		"""
+		# returns a list that is the canonical version of the original entities list
 
 		charids={}
 		max_id=1
@@ -292,7 +293,9 @@ class NameCoref:
 		max_id=1
 		if len(refs) > 0:
 			max_id=max(refs)+1
-			# if the function call that precedes the current one is cluster_narrator, max_id = 1
+			# if the function call that precedes the current one is cluster_narrator, 
+			# 	if there is a narrator, max_id = 1
+			#	else: max_id = 0
 
 		names={} # a dictionary that gives a numbering to entities that are proper nouns but not persons
 
@@ -368,25 +371,31 @@ class NameCoref:
 		def map_honorifics(term):
 			term=term.lower()
 			if term in hon_mapper:
-				return hon_mapper[term]
-			return None
+				return hon_mapper[term] # if the term is an honorific, return the standardized term
+			return None # if the term is not an honorific, return None
 
-		is_named=[]
-		entity_names=[]
+		is_named=[] 
+		entity_names=[] # a list of lists (one sublist for each entity)
 
 		for start, end, cat, text in entities:
 			ner_prop=cat.split("_")[0]
 			ner_type=cat.split("_")[1]
+
+			# is_named is a list of equal length as ref
+			# if the named entity is a proper noun and a person, corresponding spot in is_named is 1, otherwise 0
 			if ner_prop == "PROP" and ner_type == "PER":
 				is_named.append(1)
 			else:
 				is_named.append(0)
 
-			new_text=[]
+			new_text=[] # a list of strings that keeps track of non-honorific capitalized nouns and proper nouns
+
+			# for each word in the entity string
 			for i in range(start,end+1):
-				hon_mapped=map_honorifics(tokens[i].text)
+				hon_mapped=map_honorifics(tokens[i].text) # standardize all honorifics
 
 				if (hon_mapped is not None or (tokens[i].pos == "NOUN" or tokens[i].pos == "PROPN")) and tokens[i].text.lower()[0] != tokens[i].text[0]:
+					# if the word is capitalized and (that it is not an honorofic, or that it is a noun, or that it is a proper noun)
 					val=tokens[i].text
 					if hon_mapped is not None:
 						val=hon_mapped
@@ -401,8 +410,8 @@ class NameCoref:
 
 	def cluster(self, entities, is_named, refs):
 
-		refs=self.name_cluster(entities, is_named, refs)
-		clusters={}
+		refs=self.name_cluster(entities, is_named, refs) # the canonical version of the original entities list
+		clusters={} 
 
 		for i, val in enumerate(refs):
 			ref=refs[i]
