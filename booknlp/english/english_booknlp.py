@@ -402,7 +402,7 @@ class EnglishBookNLP:
 
 					entities=entity_vals["entities"]
 		
-					in_quotes=[] # 
+					in_quotes=[]
 
 					# iterate through every entity and fill in the in_quotes list that has an equal length
 					# with each element indicating if this entity is in a quote (1 for in quote and 0 otherwise)
@@ -413,7 +413,7 @@ class EnglishBookNLP:
 						else:
 							in_quotes.append(0)
 
-
+					# create canonical entities:
 					# Create entity for first-person narrator, if present
 					refs=self.name_resolver.cluster_narrator(entities, in_quotes, tokens)
 				
@@ -434,11 +434,14 @@ class EnglishBookNLP:
 				
 				assignments=None
 				if self.doEntities:
-					assignments=copy.deepcopy(refs)
-
+					assignments=copy.deepcopy(refs) # constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original
+					# should have the same length as refs, a list of integers
+				
 				if self.doCoref:
 					torch.cuda.empty_cache()
+					# corefer pronouns with either named entities or common entities
 					assignments=self.litbank_coref.tag(tokens, entities, refs, genders, attributed_quotations, quotes)
+					# print(assignments)
 
 					print("--- coref: %.3f seconds ---" % (time.time() - start_time))
 					start_time=time.time()
@@ -447,7 +450,7 @@ class EnglishBookNLP:
 					for a, e in zip(assignments, entities):
 						if a not in ent_names:
 							ent_names[a]=Counter()
-						ent_names[a][e[3]]+=1
+						ent_names[a][e[3]]+=1 # ent_names created but never used??
 				
 					# Update gender estimates from coref data
 					genders=genderEM.update_gender_from_coref(genders, entities, assignments)
@@ -468,6 +471,7 @@ class EnglishBookNLP:
 
 
 				if self.doQuoteAttrib:
+					# write .quotes
 					with open(join(outFolder, "%s.quotes" % (idd)), "w", encoding="utf-8") as out:
 						out.write('\t'.join(["quote_start", "quote_end", "mention_start", "mention_end", "mention_phrase", "char_id", "quote"]) + "\n")
 
@@ -525,6 +529,7 @@ class EnglishBookNLP:
 								common_names=character["mentions"]["common"]
 								common_name_list="/".join(["%s (%s)" % (name["n"], name["c"]) for name in common_names])
 
+								# char_count counts all of the references to the character, including pronouns	
 								char_count=character["count"]
 
 								if char_id == 0:
