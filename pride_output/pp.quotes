@@ -1,0 +1,149 @@
+quote_start	quote_end	mention_start	mention_end	mention_phrase	char_id	quote
+79	85	87	88	his lady	50	“ My dear Mr. Bennet , ”
+94	106	87	88	his lady	50	“ have you heard that Netherfield Park is let at last ? ”
+115	120	122	122	she	50	“ But it is , ”
+124	141	122	122	she	50	“ for Mrs. Long has just been here , and she told me all about it . ”
+148	160	162	163	his wife	51	“ Do you not want to know who has taken it ? ”
+166	184	142	143	Mr. Bennet	11	“ _ You _ want to tell me , and I have no objection to hearing it . ”
+190	279	142	143	Mr. Bennet	11	“ Why , my dear , you must know , Mrs. Long says that Netherfield is taken by a young man of large fortune from the north of England ; that he came down on Monday in a chaise and four to see the place , and was so much delighted with it , that he agreed with Mr. Morris immediately ; that he is to take possession before Michaelmas , and some of his servants are to be in the house by the end of next week . ”
+280	286	142	143	Mr. Bennet	11	“ What is his name ? ”
+287	290	142	143	Mr. Bennet	11	“ Bingley . ”
+291	298	142	143	Mr. Bennet	11	“ Is he married or single ? ”
+299	333	142	143	Mr. Bennet	11	“ Oh ! Single , my dear , to be sure ! A single man of large fortune ; four or five thousand a year . What a fine thing for our girls ! ”
+334	344	142	143	Mr. Bennet	11	“ How so ? How can it affect them ? ”
+345	351	353	354	his wife	51	“ My dear Mr. Bennet , ”
+356	378	353	354	his wife	51	“ how can you be so tiresome ! You must know that I am thinking of his marrying one of them . ”
+379	388	142	143	Mr. Bennet	11	“ Is that his design in settling here ? ”
+389	430	353	354	his wife	51	“ Design ! Nonsense , how can you talk so ! But it is very likely that he _ may _ fall in love with one of them , and therefore you must visit him as soon as he comes . ”
+431	483	142	143	Mr. Bennet	11	“ I see no occasion for that . You and the girls may go , or you may send them by themselves , which perhaps will be still better , for as you are as handsome as any of them , Mr. Bingley may like you the best of the party . ”
+484	535	353	354	his wife	51	“ My dear , you flatter me . I certainly _ have _ had my share of beauty , but I do not pretend to be anything extraordinary now . When a woman has five grown - up daughters , she ought to give over thinking of her own beauty . ”
+536	552	142	143	Mr. Bennet	11	“ In such cases , a woman has not often much beauty to think of . ”
+553	574	353	354	his wife	51	“ But , my dear , you must indeed go and see Mr. Bingley when he comes into the neighbourhood . ”
+575	588	142	143	Mr. Bennet	11	“ It is more than I engage for , I assure you . ”
+589	657	353	354	his wife	51	“ But consider your daughters . Only think what an establishment it would be for one of them . Sir William and Lady Lucas are determined to go , merely on that account , for in general , you know , they visit no newcomers . Indeed you must go , for it will be impossible for _ us _ to visit him if you do not . ”
+658	719	142	143	Mr. Bennet	11	“ You are over - scrupulous , surely . I dare say Mr. Bingley will be very glad to see you ; and I will send a few lines by you to assure him of my hearty consent to his marrying whichever he chooses of the girls ; though I must throw in a good word for my little Lizzy . ”
+720	773	353	354	his wife	51	“ I desire you will do no such thing . Lizzy is not a bit better than the others ; and I am sure she is not half so handsome as Jane , nor half so good - humoured as Lydia . But you are always giving _ her _ the preference . ”
+774	785	787	787	he	54	“ They have none of them much to recommend them , ”
+789	811	787	787	he	54	“ they are all silly and ignorant like other girls ; but Lizzy has something more of quickness than her sisters . ”
+812	844	353	354	his wife	51	“ Mr. Bennet , how can you abuse your own children in such a way ? You take delight in vexing me . You have no compassion for my poor nerves . ”
+845	883	787	787	he	54	“ You mistake me , my dear . I have a high respect for your nerves . They are my old friends . I have heard you mention them with consideration these last twenty years at least . ”
+884	895	353	354	his wife	51	“ Ah , you do not know what I suffer . ”
+896	923	787	787	he	54	“ But I hope you will get over it , and live to see many young men of four thousand a year come into the neighbourhood . ”
+924	946	353	354	his wife	51	“ It will be no use to us , if twenty such should come , since you will not visit them . ”
+947	967	787	787	he	54	“ Depend upon it , my dear , that when there are twenty , I will visit them all . ”
+1141	1152	1135	1135	he	11	“ I hope Mr. Bingley will like it , Lizzy . ”
+1153	1169	1171	1172	her mother	61	“ We are not in a way to know _ what _ Mr. Bingley likes , ”
+1175	1183	1171	1172	her mother	61	“ since we are not to visit . ”
+1184	1191	1193	1193	Elizabeth	35	“ But you forget , mamma , ”
+1195	1214	1193	1193	Elizabeth	35	“ that we shall meet him at the assemblies , and that Mrs. Long promised to introduce him . ”
+1215	1252	1282	1283	Mrs. Bennet	21	“ I do not believe Mrs. Long will do any such thing . She has two nieces of her own . She is a selfish , hypocritical woman , and I have no opinion of her . ”
+1253	1259	1261	1262	Mr. Bennet	11	“ No more have I , ”
+1264	1281	1261	1262	Mr. Bennet	11	“ and I am glad to find that you do not depend on her serving you . ”
+1305	1333	1282	1283	Mrs. Bennet	21	“ Do n’t keep coughing so , Kitty , for Heaven ’s sake ! Have a little compassion on my nerves . You tear them to pieces . ”
+1334	1343	1345	1346	her father	64	“ Kitty has no discretion in her coughs , ”
+1348	1354	1345	1346	her father	64	“ she times them ill . ”
+1355	1365	1367	1367	Kitty	22	“ I do not cough for my own amusement , ”
+1370	1381	1367	1367	Kitty	22	“ When is your next ball to be , Lizzy ? ”
+1382	1388	1282	1283	Mrs. Bennet	21	“ To - morrow fortnight . ”
+1389	1396	1398	1399	her mother	61	“ Aye , so it is , ”
+1401	1433	1398	1399	her mother	61	“ and Mrs. Long does not come back till the day before ; so it will be impossible for her to introduce him , for she will not know him herself . ”
+1434	1458	1282	1283	Mrs. Bennet	21	“ Then , my dear , you may have the advantage of your friend , and introduce Mr. Bingley to _ her _ . ”
+1459	1483	1398	1399	her mother	61	“ Impossible , Mr. Bennet , impossible , when I am not acquainted with him myself ; how can you be so teasing ? ”
+1484	1568	1282	1283	Mrs. Bennet	21	“ I honour your circumspection . A fortnight ’s acquaintance is certainly very little . One can not know what a man really is by the end of a fortnight . But if _ we _ do not venture somebody else will ; and after all , Mrs. Long and her nieces must stand their chance ; and , therefore , as she will think it an act of kindness , if you decline the office , I will take it on myself . ”
+1581	1586	1576	1577	Mrs. Bennet	21	“ Nonsense , nonsense ! ”
+1587	1598	1600	1600	he	67	“ What can be the meaning of that emphatic exclamation ? ”
+1602	1661	1600	1600	he	67	“ Do you consider the forms of introduction , and the stress that is laid on them , as nonsense ? I can not quite agree with you _ there _ . What say you , Mary ? For you are a young lady of deep reflection , I know , and read great books and make extracts . ”
+1674	1682	1683	1683	he	67	“ While Mary is adjusting her ideas , ”
+1686	1694	1683	1683	he	67	“ let us return to Mr. Bingley . ”
+1695	1703	1705	1706	his wife	51	“ I am sick of Mr. Bingley , ”
+1708	1767	1705	1706	his wife	51	“ I am sorry to hear _ that _ ; but why did not you tell me that before ? If I had known as much this morning I certainly would not have called on him . It is very unlucky ; but as I have actually paid the visit , we can not escape the acquaintance now . ”
+1814	1886	1799	1799	she	51	“ How good it was in you , my dear Mr. Bennet ! But I knew I should persuade you at last . I was sure you loved your girls too well to neglect such an acquaintance . Well , how pleased I am ! and it is such a good joke , too , that you should have gone this morning and never said a word about it till now . ”
+1887	1901	1903	1904	Mr. Bennet	11	“ Now , Kitty , you may cough as much as you choose , ”
+1925	1935	1937	1937	she	51	“ What an excellent father you have , girls ! ”
+1945	2031	1937	1937	she	51	“ I do not know how you will ever make him amends for his kindness ; or me , either , for that matter . At our time of life it is not so pleasant , I can tell you , to be making new acquaintances every day ; but for your sakes , we would do anything . Lydia , my love , though you _ are _ the youngest , I dare say Mr. Bingley will dance with you at the next ball . ”
+2032	2035	2037	2037	Lydia	20	“ Oh ! ”
+2040	2060	2037	2037	Lydia	20	“ I am not afraid ; for though I _ am _ the youngest , I ’m the tallest . ”
+2252	2267	2269	2270	Mrs. Bennet	21	“ If I can but see one of my daughters happily settled at Netherfield , ”
+2275	2292	2269	2270	Mrs. Bennet	21	“ and all the others equally well married , I shall have nothing to wish for . ”
+3041	3046	3048	3048	he	26	“ Come , Darcy , ”
+3050	3077	3048	3048	he	26	“ I must have you dance . I hate to see you standing about by yourself in this stupid manner . You had much better dance . ”
+3078	3139	3020	3021	Mr. Bingley	15	“ I certainly shall not . You know how I detest it , unless I am particularly acquainted with my partner . At such an assembly as this it would be insupportable . Your sisters are engaged , and there is not another woman in the room whom it would not be a punishment to me to stand up with . ”
+3140	3151	3153	3154	Mr. Bingley	15	“ I would not be so fastidious as you are , ”
+3156	3193	3153	3154	Mr. Bingley	15	“ for a kingdom ! Upon my honour , I never met with so many pleasant girls in my life as I have this evening ; and there are several of them you see uncommonly pretty . ”
+3194	3209	3211	3212	Mr. Darcy	26	“ _ You _ are dancing with the only handsome girl in the room , ”
+3221	3269	3280	3280	he	26	“ Oh ! She is the most beautiful creature I ever beheld ! But there is one of her sisters sitting down just behind you , who is very pretty , and I dare say very agreeable . Do let me ask my partner to introduce you . ”
+3270	3276	3280	3280	he	26	“ Which do you mean ? ”
+3301	3357	3293	3293	he	26	“ She is tolerable , but not handsome enough to tempt _ me _ ; I am in no humour at present to give consequence to young ladies who are slighted by other men . You had better return to your partner and enjoy her smiles , for you are wasting your time with me . ”
+3620	3628	3630	3630	she	51	“ Oh , my dear Mr. Bennet , ”
+3635	3835	3630	3630	she	51	“ we have had a most delightful evening , a most excellent ball . I wish you had been there . Jane was so admired , nothing could be like it . Everybody said how well she looked ; and Mr. Bingley thought her quite beautiful , and danced with her twice ! Only think of _ that _ , my dear ; he actually danced with her twice ! and she was the only creature in the room that he asked a second time . First of all , he asked Miss Lucas . I was so vexed to see him stand up with her ! But , however , he did not admire her at all ; indeed , nobody can , you know ; and he seemed quite struck with Jane as she was going down the dance . So he inquired who she was , and got introduced , and asked her for the two next . Then the two third he danced with Miss King , and the two fourth with Maria Lucas , and the two fifth with Jane again , and the two sixth with Lizzy , and the _ Boulanger _ — ”
+3836	3848	3850	3851	her husband	76	“ If he had had any compassion for _ me _ , ”
+3854	3888	3850	3851	her husband	76	“ he would not have danced half so much ! For God ’s sake , say no more of his partners . Oh that he had sprained his ankle in the first dance ! ”
+3889	3939	3850	3851	her husband	76	“ Oh ! my dear , I am quite delighted with him . He is so excessively handsome ! And his sisters are charming women . I never in my life saw anything more elegant than their dresses . I dare say the lace upon Mrs. Hurst ’s gown — ”
+3986	3993	3994	3994	she	149	“ But I can assure you , ”
+3997	4089	3994	3994	she	149	“ that Lizzy does not lose much by not suiting _ his _ fancy ; for he is a most disagreeable , horrid man , not at all worth pleasing . So high and so conceited that there was no enduring him ! He walked here , and he walked there , fancying himself so very great ! Not handsome enough to dance with ! I wish you had been there , my dear , to have given him one of your set - downs . I quite detest the man . ”
+4126	4138	4140	4140	she	150	“ He is just what a young man ought to be , ”
+4142	4167	4140	4140	she	150	“ sensible , good - humoured , lively ; and I never saw such happy manners!—so much ease , with such perfect good breeding ! ”
+4168	4174	4176	4176	Elizabeth	35	“ He is also handsome , ”
+4178	4199	4176	4176	Elizabeth	35	“ which a young man ought likewise to be , if he possibly can . His character is thereby complete . ”
+4200	4224	4140	4140	she	150	“ I was very much flattered by his asking me to dance a second time . I did not expect such a compliment . ”
+4225	4326	4176	4176	Elizabeth	35	“ Did not you ? _ I _ did for you . But that is one great difference between us . Compliments always take _ you _ by surprise , and _ me _ never . What could be more natural than his asking you again ? He could not help seeing that you were about five times as pretty as every other woman in the room . No thanks to his gallantry for that . Well , he certainly is very agreeable , and I give you leave to like him . You have liked many a stupider person . ”
+4327	4331	4140	4140	she	150	“ Dear Lizzy ! ”
+4332	4385	4176	4176	Elizabeth	35	“ Oh ! you are a great deal too apt , you know , to like people in general . You never see a fault in anybody . All the world are good and agreeable in your eyes . I never heard you speak ill of a human being in your life . ”
+4386	4406	4140	4140	she	150	“ I would not wish to be hasty in censuring anyone ; but I always speak what I think . ”
+4407	4514	4176	4176	Elizabeth	35	“ I know you do ; and it is _ that _ which makes the wonder . With _ your _ good sense , to be so honestly blind to the follies and nonsense of others ! Affectation of candour is common enough — one meets with it everywhere . But to be candid without ostentation or design — to take the good of everybody ’s character and make it still better , and say nothing of the bad — belongs to you alone . And so you like this man ’s sisters , too , do you ? Their manners are not equal to his . ”
+4515	4565	4140	4140	she	150	“ Certainly not — at first . But they are very pleasing women when you converse with them . Miss Bingley is to live with her brother , and keep his house ; and I am much mistaken if we shall not find a very charming neighbour in her . ”
+5616	5627	5629	5630	Mrs. Bennet	21	“ _ You _ began the evening well , Charlotte , ”
+5640	5651	5629	5630	Mrs. Bennet	21	“ _ You _ were Mr. Bingley ’s first choice . ”
+5652	5664	5629	5630	Mrs. Bennet	21	“ Yes ; but he seemed to like his second better . ”
+5665	5719	5629	5630	Mrs. Bennet	21	“ Oh ! you mean Jane , I suppose , because he danced with her twice . To be sure that _ did _ seem as if he admired her — indeed I rather believe he _ did_—I heard something about it — but I hardly know what — something about Mr. Robinson . ”
+5720	5811	5629	5630	Mrs. Bennet	21	“ Perhaps you mean what I overheard between him and Mr. Robinson ; did not I mention it to you ? Mr. Robinson ’s asking him how he liked our Meryton assemblies , and whether he did not think there were a great many pretty women in the room , and _ which _ he thought the prettiest ? and his answering immediately to the last question : ‘ Oh ! the eldest Miss Bennet , beyond a doubt ; there can not be two opinions on that point . ’ ”
+5812	5845	5629	5630	Mrs. Bennet	21	“ Upon my word ! Well , that is very decided indeed — that does seem as if — but , however , it may all come to nothing , you know . ”
+5846	5863	5865	5865	Charlotte	39	“ _ My _ overhearings were more to the purpose than _ yours _ , Eliza , ”
+5867	5891	5865	5865	Charlotte	39	“ Mr. Darcy is not so well worth listening to as his friend , is he?—poor Eliza!—to be only just _ tolerable _ . ”
+5892	5958	5629	5630	Mrs. Bennet	21	“ I beg you would not put it into Lizzy ’s head to be vexed by his ill - treatment , for he is such a disagreeable man , that it would be quite a misfortune to be liked by him . Mrs. Long told me last night that he sat close to her for half - an - hour without once opening his lips . ”
+5959	5972	5974	5974	Jane	19	“ Are you quite sure , ma’am?—is not there a little mistake ? ”
+5976	5986	5974	5974	Jane	19	“ I certainly saw Mr. Darcy speaking to her . ”
+5987	6021	5629	5630	Mrs. Bennet	21	“ Aye — because she asked him at last how he liked Netherfield , and he could not help answering her ; but she said he seemed quite angry at being spoke to . ”
+6022	6028	6030	6030	Jane	19	“ Miss Bingley told me , ”
+6032	6054	6030	6030	Jane	19	“ that he never speaks much , unless among his intimate acquaintances . With _ them _ he is remarkably agreeable . ”
+6055	6130	5629	5630	Mrs. Bennet	21	“ I do not believe a word of it , my dear . If he had been so very agreeable , he would have talked to Mrs. Long . But I can guess how it was ; everybody says that he is eat up with pride , and I dare say he had heard somehow that Mrs. Long does not keep a carriage , and had come to the ball in a hack chaise . ”
+6131	6143	6145	6146	Miss Lucas	30	“ I do not mind his not talking to Mrs. Long , ”
+6148	6158	6145	6146	Miss Lucas	30	“ but I wish he had danced with Eliza . ”
+6159	6165	6167	6168	her mother	61	“ Another time , Lizzy , ”
+6170	6185	6167	6168	her mother	61	“ I would not dance with _ him _ , if I were you . ”
+6186	6205	5629	5630	Mrs. Bennet	21	“ I believe , ma’am , I may safely promise you _ never _ to dance with him . ”
+6206	6210	6212	6213	Miss Lucas	30	“ His pride , ”
+6215	6282	6212	6213	Miss Lucas	30	“ does not offend _ me _ so much as pride often does , because there is an excuse for it . One can not wonder that so very fine a young man , with family , fortune , everything in his favour , should think highly of himself . If I may so express it , he has a _ right _ to be proud . ”
+6283	6289	6291	6291	Elizabeth	35	“ That is very true , ”
+6293	6313	6291	6291	Elizabeth	35	“ and I could easily forgive _ his _ pride , if he had not mortified _ mine _ . ”
+6314	6317	6319	6319	Mary	24	“ Pride , ”
+6331	6443	6319	6319	Mary	24	“ is a very common failing , I believe . By all that I have ever read , I am convinced that it is very common indeed ; that human nature is particularly prone to it , and that there are very few of us who do not cherish a feeling of self - complacency on the score of some quality or other , real or imaginary . Vanity and pride are different things , though the words are often used synonymously . A person may be proud without being vain . Pride relates more to our opinion of ourselves , vanity to what we would have others think of us . ”
+6444	6454	6456	6458	a young Lucas	215	“ If I were as rich as Mr. Darcy , ”
+6466	6493	6456	6458	a young Lucas	215	“ I should not care how proud I was . I would keep a pack of foxhounds , and drink a bottle of wine a day . ”
+6494	6507	6509	6510	Mrs. Bennet	21	“ Then you would drink a great deal more than you ought , ”
+6512	6531	6509	6510	Mrs. Bennet	21	“ and if I were to see you at it , I should take away your bottle directly . ”
+6808	6815	6817	6817	Charlotte	39	“ It may perhaps be pleasant , ”
+6819	6988	6817	6817	Charlotte	39	“ to be able to impose on the public in such a case ; but it is sometimes a disadvantage to be so very guarded . If a woman conceals her affection with the same skill from the object of it , she may lose the opportunity of fixing him ; and it will then be but poor consolation to believe the world equally in the dark . There is so much of gratitude or vanity in almost every attachment , that it is not safe to leave any to itself . We can all _ begin _ freely — a slight preference is natural enough ; but there are very few of us who have heart enough to be really in love without encouragement . In nine cases out of ten a woman had better show _ more _ affection than she feels . Bingley likes your sister undoubtedly ; but he may never do more than like her , if she does not help him on . ”
+6989	7030	6799	6799	She	19	“ But she does help him on , as much as her nature will allow . If _ I _ can perceive her regard for him , he must be a simpleton , indeed , not to discover it too . ”
+7031	7048	6817	6817	Charlotte	39	“ Remember , Eliza , that he does not know Jane ’s disposition as you do . ”
+7049	7074	6799	6799	She	19	“ But if a woman is partial to a man , and does not endeavour to conceal it , he must find it out . ”
+7075	7172	6817	6817	Charlotte	39	“ Perhaps he must , if he sees enough of her . But , though Bingley and Jane meet tolerably often , it is never for many hours together ; and , as they always see each other in large mixed parties , it is impossible that every moment should be employed in conversing together . Jane should therefore make the most of every half - hour in which she can command his attention . When she is secure of him , there will be more leisure for falling in love as much as she chooses . ”
+7173	7181	7183	7183	Elizabeth	35	“ Your plan is a good one , ”
+7185	7308	7183	7183	Elizabeth	35	“ where nothing is in question but the desire of being well married , and if I were determined to get a rich husband , or any husband , I dare say I should adopt it . But these are not Jane ’s feelings ; she is not acting by design . As yet , she can not even be certain of the degree of her own regard nor of its reasonableness . She has known him only a fortnight . She danced four dances with him at Meryton ; she saw him one morning at his own house , and has since dined with him in company four times . This is not quite enough to make her understand his character . ”
+7309	7359	6817	6817	Charlotte	39	“ Not as you represent it . Had she merely _ dined _ with him , she might only have discovered whether he had a good appetite ; but you must remember that four evenings have also been spent together — and four evenings may do a great deal . ”
+7360	7401	7183	7183	Elizabeth	35	“ Yes ; these four evenings have enabled them to ascertain that they both like Vingt - un better than Commerce ; but with respect to any other leading characteristic , I do not imagine that much has been unfolded . ”
+7402	7405	7407	7407	Charlotte	39	“ Well , ”
+7409	7534	7407	7407	Charlotte	39	“ I wish Jane success with all my heart ; and if she were married to him to - morrow , I should think she had as good a chance of happiness as if she were to be studying his character for a twelvemonth . Happiness in marriage is entirely a matter of chance . If the dispositions of the parties are ever so well known to each other or ever so similar beforehand , it does not advance their felicity in the least . They always continue to grow sufficiently unlike afterwards to have their share of vexation ; and it is better to know as little as possible of the defects of the person with whom you are to pass your life . ”
+7535	7567	7601	7602	Mr. Darcy	26	“ You make me laugh , Charlotte ; but it is not sound . You know it is not sound , and that you would never act in this way yourself . ”
+7828	7835	7837	7837	she	35	“ What does Mr. Darcy mean , ”
+7841	7851	7837	7837	she	35	“ by listening to my conversation with Colonel Forster ? ”
+7852	7864	7816	7818	Sir William Lucas	16	“ That is a question which Mr. Darcy only can answer . ”
+7865	7913	7837	7837	she	35	“ But if he does it any more I shall certainly let him know that I see what he is about . He has a very satirical eye , and if I do not begin by being impertinent myself , I shall soon grow afraid of him . ”
+7959	7991	7952	7952	she	30	“ Did you not think , Mr. Darcy , that I expressed myself uncommonly well just now , when I was teasing Colonel Forster to give us a ball at Meryton ? ”
+7992	8009	7952	7952	she	30	“ With great energy ; but it is always a subject which makes a lady energetic . ”
+8010	8017	7952	7952	she	30	“ You are severe on us . ”
+8018	8031	8033	8034	Miss Lucas	30	“ It will be _ her _ turn soon to be teased , ”
+8036	8053	7952	7952	she	30	“ I am going to open the instrument , Eliza , and you know what follows . ”
+8054	8119	8128	8128	she	30	“ You are a very strange creature by way of a friend!—always wanting me to play and sing before anybody and everybody ! If my vanity had taken a musical turn , you would have been invaluable ; but as it is , I would really rather not sit down before those who must be in the habit of hearing the very best performers . ”
+8131	8144	8128	8128	she	30	“ Very well , if it must be so , it must . ”
+8152	8189	8128	8128	she	30	“ There is a fine old saying , which everybody here is of course familiar with : ‘ Keep your breath to cool your porridge ’ ; and I shall keep mine to swell my song . ”
