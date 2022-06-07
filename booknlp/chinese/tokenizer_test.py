@@ -21,7 +21,7 @@ def predict(sentence, model="jieba"):
         from LAC import LAC
         lac = LAC(mode='seg')
         return " ".join(lac.run(sentence))
-    elif model =="hanlp":
+    elif model == "hanlp":
         from hanlp_restful import HanLPClient
         HanLP = HanLPClient('https://www.hanlp.com/api', auth=None, language='zh') # auth不填则匿名，zh中文，mul多语种
         hlp = HanLP.tokenize(sentence)
@@ -29,14 +29,16 @@ def predict(sentence, model="jieba"):
         for sentList in hlp:
             hlp_res += " ".join(sentList)
         return hlp_res
+    elif model == "stanza":
+        import stanza 
     elif model == "jiagu":
         import jiagu
         jiagu_res = jiagu.seg(sentence)
         return " ".join(jiagu_res)
-    elif model=="ltp":
+    elif model== "ltp":
         from ltp import LTP
         ltp = LTP()
-        segment, _ = ltp.seg(["他叫汤姆去拿外衣。"])
+        segment, _ = ltp.seg([sentence])
         ltp_res = ""
         for sentList in segment:
             ltp_res += " ".join(sentList)
