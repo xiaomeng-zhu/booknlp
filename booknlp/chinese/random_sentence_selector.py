@@ -19,8 +19,8 @@ def random_select(num, sents, min_len):
     return sample
 
 if __name__ == '__main__':
-    book_name = "fengshou"
-    file_name = "examples/"+book_name+".txt"
+    book_name = "niehaihua"
+    file_name = "examples/with_poetry/"+book_name+".txt"
     doc = read_from_txt(file_name)
     clean_doc = strip_header_footer(doc)
     sents = split_by_sentence(clean_doc)
