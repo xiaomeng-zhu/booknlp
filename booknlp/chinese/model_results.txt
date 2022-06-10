@@ -1,0 +1,48 @@
+是故内圣外王之道，暗而不明，郁而不发，天下之人各为其所欲焉以自为方。
+jieba	是v/ 故内圣外王之道，nz/ 暗a/ 而c/ 不明，郁a/ 而c/ 不发v/ ，v/ 天下n/ 之u/ 人n/ 各为其所欲v/ 焉r/ 以p/ 自为p/ 方。PER/ 
+lac	是v/ 故c/ 内圣外王n/ 之u/ 道n/ ，w/ 暗a/ 而c/ 不明v/ ，w/ 郁a/ 而c/ 不发v/ ，w/ 天下n/ 之u/ 人n/ 各r/ 为v/ 其r/ 所欲v/ 焉u/ 以p/ 自r/ 为方v/ 。w/ 
+hanlp	是vl/ 故c/ 内圣外王n/ 之u/ 道n/ ，w/ 暗a/ 而c/ 不明a/ ，w/ 郁a/ 而c/ 不d/ 发v/ ，w/ 天下nl/ 之u/ 人n/ 各r/ 为p/ 其r/ 所u/ 欲v/ 焉r/ 以p/ 自r/ 为v/ 方n/ 。w/ 
+jiayan	是v/ 故c/ 内圣外王n/ 之u/ 道n/ ，wp/ 暗a/ 而c/ 不d/ 明a/ ，wp/ 郁a/ 而c/ 不d/ 发v/ ，wp/ 天下n/ 之u/ 人n/ 各r/ 为v/ 其r/ 所u/ 欲v/ 焉r/ 以p/ 自r/ 为v/ 方n/ 。wp/ 
+jiagu	是vl/ 故c/ 内nd/ 圣n/ 外nd/ 王n/ 之u/ 道n/ ，w/ 暗a/ 而c/ 不明a/ ，w/ 郁a/ 而c/ 不d/ 发v/ ，w/ 天下nl/ 之u/ 人n/ 各r/ 为p/ 其r/ 所u/ 欲v/ 焉r/ 以p/ 自为v/ 方n/ 。w/ 
+thulac	是v/ 故内圣id/ 外王n/ 之u/ 道n/ ，w/ 暗a/ 而c/ 不d/ 明a/ ，w/ 郁g/ 而c/ 不d/ 发v/ ，w/ 天下n/ 之u/ 人n/ 各r/ 为v/ 其r/ 所u/ 欲g/ 焉以自为方id/ 。w/ 
+pkuseg	是v/ 故内s/ 圣外王之道n/ ，w/ 暗而不明l/ ，w/ 郁z/ 而c/ 不d/ 发v/ ，w/ 天下n/ 之u/ 人n/ 各r/ 为v/ 其r/ 所u/ 欲v/ 焉以自为方n/ 。w/ 
+
+并题一绝云：
+　　满纸荒唐言，一把辛酸泪！
+　　都云作者痴，谁解其中味？
+　　出则既明，且看石上是何故事．
+jieba	并c/ 题一绝v/ 云： 　　nz/ 满a/ 纸n/ 荒唐a/ 言，n/ 一把m/ 辛酸泪！ 　　nz/ 都云PER/ 作者n/ 痴，v/ 谁r/ 解v/ 其中r/ 味？ 　nz/ 　v/ 出v/ 则c/ 既c/ 明，v/ 且看v/ 石上s/ 是v/ 何r/ 故事n/ ．v/ 
+lac	并c/ 题v/ 一绝云n/ ：w/ 
+　　n/ 满a/ 纸n/ 荒唐言n/ ，w/ 一把m/ 辛酸泪n/ ！w/ 
+　　都云作者痴nw/ ，w/ 谁r/ 解v/ 其中味n/ ？w/ 
+　　PER/ 出v/ 则c/ 既明a/ ，w/ 且看v/ 石n/ 上f/ 是v/ 何故事PER/ ．w/ 
+hanlp	并c/ 题v/ 一m/ 绝n/ 云v/ ：w/ 满a/ 纸n/ 荒唐a/ 言n/ ，w/ 一m/ 把q/ 辛酸a/ 泪n/ ！w/ 都d/ 云v/ 作者n/ 痴a/ ，w/ 谁r/ 解v/ 其中nd/ 味n/ ？w/ 出v/ 则c/ 既c/ 明a/ ，w/ 且c/ 看v/ 石n/ 上nd/ 是vl/ 何r/ 故事n/ ．w/ 
+jiayan	并c/ 题一绝v/ 云v/ ：wp/ 满纸n/ 荒唐a/ 言n/ ，wp/ 一把m/ 辛酸a/ 泪n/ ！wp/ 都d/ 云v/ 作v/ 者k/ 痴a/ ，wp/ 谁r/ 解v/ 其r/ 中nd/ 味n/ ？wp/ 出v/ 则c/ 既c/ 明v/ ，wp/ 且c/ 看v/ 石上n/ 是v/ 何r/ 故事n/ ．wp/ 
+jiagu	并c/ 题v/ 一绝m/ 云n/ ：w/ 
+n/ 　n/ 　v/ 满a/ 纸n/ 荒唐a/ 言n/ ，w/ 一m/ 把q/ 辛酸a/ 泪n/ ！w/ 
+n/ 　n/ 　n/ 都d/ 云v/ 作者n/ 痴a/ ，w/ 谁r/ 解v/ 其中nd/ 味n/ ？w/ 
+n/ 　n/ 　v/ 出vd/ 则c/ 既c/ 明a/ ，w/ 且看v/ 石上nl/ 是vl/ 何r/ 故事n/ ．w/ 
+thulac	并c/ 题v/ 一m/ 绝g/ 云g/ ：w
+　/ 满a/ 纸荒n/ 唐言np/ ，w/ 一m/ 把q/ 辛酸a/ 泪n/ ！w
+　/ 都d/ 云v/ 作者n/ 痴a/ ，w/ 谁r/ 解v/ 其中r/ 味g/ ？w
+　/ 出v/ 则c/ 既c/ 明g/ ，w/ 且c/ 看v/ 石g/ 上f/ 是v/ 何r/ 故事n/ ．w/ 
+pkuseg	并c/ 题v/ 一m/ 绝云n/ ：w/ 满纸n/ 荒唐a/ 言n/ ，w/ 一m/ 把q/ 辛酸a/ 泪n/ ！w/ 都d/ 云作者n/ 痴a/ ，w/ 谁v/ 解v/ 其中r/ 味n/ ？w/ 出v/ 则c/ 既c/ 明a/ ，w/ 且c/ 看石v/ 上v/ 是v/ 何r/ 故事n/ ．w/ 
+
+吴妈﹐是赵太爷家里唯一的女仆﹐洗完了碗碟﹐也就在长凳上坐下了﹐而且和阿Ｑ谈闲天﹕“太太两天没有吃饭哩﹐因为老爷要买一个小的……”
+jieba	吴妈﹐PER/ 是v/ 赵太爷PER/ 家里s/ 唯一a/ 的u/ 女仆n/ ﹐v/ 洗v/ 完v/ 了u/ 碗碟n/ ﹐n/ 也d/ 就d/ 在p/ 长凳n/ 上f/ 坐下v/ 了u/ ﹐n/ 而且c/ 和p/ 阿ＱPER/ 谈闲天﹕“v/ 太太n/ 两天TIME/ 没有v/ 吃饭v/ 哩﹐nr/ 因为p/ 老爷n/ 要买v/ 一个m/ 小a/ 的u/ ……”nz/ 
+lac	吴妈PER/ ﹐w/ 是v/ 赵太爷PER/ 家里s/ 唯一a/ 的u/ 女仆n/ ﹐w/ 洗完v/ 了u/ 碗碟n/ ﹐w/ 也d/ 就d/ 在p/ 长凳n/ 上f/ 坐下v/ 了xc/ ﹐w/ 而且c/ 和p/ 阿ＱPER/ 谈v/ 闲天n/ ﹕w/ “w/ 太太n/ 两天m/ 没有v/ 吃饭v/ 哩xc/ ﹐w/ 因为p/ 老爷n/ 要买v/ 一个m/ 小a/ 的u/ …w/ …w/ ”w/ 
+hanlp	吴nh/ 妈n/ ﹐x/ 是v/ 赵nh/ 太爷n/ 家里nl/ 唯一a/ 的u/ 女仆n/ ﹐w/ 洗完v/ 了u/ 碗碟n/ ﹐w/ 也d/ 就d/ 在p/ 长凳n/ 上nd/ 坐下v/ 了u/ ﹐w/ 而且c/ 和c/ 阿Ｑnh/ 谈v/ 闲a/ 天n/ ﹕w/ “w/ 太太n/ 两m/ 天nt/ 没有v/ 吃饭v/ 哩u/ ﹐w/ 因为c/ 老爷n/ 要v/ 买v/ 一个n/ 小a/ 的u/ …w/ …w/ ”w/ 
+jiayan	吴nh/ 妈nh/ ﹐v/ 是v/ 赵nh/ 太d/ 爷a/ 家n/ 里nd/ 唯d/ 一m/ 的u/ 女仆n/ ﹐v/ 洗v/ 完v/ 了u/ 碗碟n/ ﹐n/ 也d/ 就d/ 在p/ 长a/ 凳上n/ 坐v/ 下v/ 了u/ ﹐n/ 而c/ 且c/ 和c/ 阿j/ Ｑn/ 谈v/ 闲a/ 天n/ ﹕v/ “wp/ 太d/ 太d/ 两m/ 天q/ 没d/ 有v/ 吃饭v/ 哩n/ ﹐nh/ 因p/ 为p/ 老a/ 爷n/ 要v/ 买v/ 一个m/ 小a/ 的u/ …wp/ …wp/ ”wp/ 
+jiagu	吴妈nh/ ﹐n/ 是vl/ 赵太爷nh/ 家里nl/ 唯一a/ 的u/ 女仆n/ ﹐v/ 洗完v/ 了u/ 碗碟n/ ﹐n/ 也d/ 就d/ 在p/ 长凳n/ 上nd/ 坐下v/ 了u/ ﹐n/ 而且c/ 和c/ 阿h/ Ｑws/ 谈v/ 闲a/ 天nt/ ﹕v/ “w/ 太太n/ 两天n/ 没有v/ 吃饭v/ 哩u/ ﹐n/ 因为c/ 老爷n/ 要vu/ 买v/ 一个mq/ 小a/ 的u/ …w/ …w/ ”w/ 
+thulac	吴妈﹐np/ 是v/ 赵太爷np/ 家n/ 里f/ 唯一a/ 的u/ 女仆n/ ﹐洗v/ 完v/ 了u/ 碗碟﹐np/ 也d/ 就d/ 在p/ 长凳n/ 上f/ 坐下v/ 了u/ ﹐g/ 而且c/ 和c/ 阿j/ Ｑj/ 谈闲v/ 天﹕n/ “w/ 太太n/ 两m/ 天q/ 没有d/ 吃饭v/ 哩u/ ﹐n/ 因为p/ 老爷n/ 要v/ 买v/ 一个m/ 小a/ 的u/ …w/ …w/ ”w/ 
+pkuseg	吴妈﹐nr/ 是v/ 赵nr/ 太爷n/ 家里s/ 唯一b/ 的u/ 女仆n/ ﹐n/ 洗完v/ 了u/ 碗n/ 碟﹐n/ 也d/ 就d/ 在p/ 长凳n/ 上v/ 坐下v/ 了u/ ﹐n/ 而且c/ 和c/ 阿Ｑnr/ 谈闲v/ 天﹕n/ “w/ 太太n/ 两m/ 天q/ 没有d/ 吃饭v/ 哩﹐n/ 因为c/ 老爷n/ 要v/ 买v/ 一个m/ 小a/ 的u/ ……w/ ”w/ 
+
+前几天，狼子村的佃户来告荒，对我大哥说，他们村里的一个大恶人，给大家打死了；几个人便挖出他的心肝来，用油煎炒了吃，可以壮壮胆子。
+jieba	前几天t/ ，狼子村LOC/ 的u/ 佃户n/ 来v/ 告v/ 荒，n/ 对p/ 我r/ 大哥n/ 说v/ ，v/ 他们r/ 村里s/ 的u/ 一个m/ 大a/ 恶人n/ ，v/ 给p/ 大家r/ 打死v/ 了u/ ；v/ 几个m/ 人n/ 便d/ 挖出v/ 他r/ 的u/ 心肝n/ 来v/ ，v/ 用v/ 油n/ 煎v/ 炒v/ 了u/ 吃v/ ，n/ 可以v/ 壮壮v/ 胆子n/ 。v/ 
+lac	前几天TIME/ ，w/ 狼子村LOC/ 的u/ 佃户n/ 来v/ 告荒v/ ，w/ 对p/ 我r/ 大哥n/ 说v/ ，w/ 他们r/ 村里s/ 的u/ 一个m/ 大恶人n/ ，w/ 给p/ 大家r/ 打死v/ 了u/ ；w/ 几个m/ 人n/ 便d/ 挖出v/ 他r/ 的u/ 心肝n/ 来v/ ，w/ 用p/ 油n/ 煎v/ 炒v/ 了u/ 吃v/ ，w/ 可以v/ 壮壮v/ 胆子n/ 。w/ 
+hanlp	前几天nt/ ，w/ 狼子村ns/ 的u/ 佃户n/ 来v/ 告v/ 荒n/ ，w/ 对p/ 我r/ 大哥n/ 说v/ ，w/ 他们r/ 村里nl/ 的u/ 一个mq/ 大a/ 恶人n/ ，w/ 给p/ 大家n/ 打死v/ 了u/ ；w/ 几m/ 个q/ 人n/ 便d/ 挖出v/ 他r/ 的u/ 心肝n/ 来v/ ，w/ 用p/ 油n/ 煎v/ 炒v/ 了u/ 吃v/ ，w/ 可以vu/ 壮壮v/ 胆子n/ 。w/ 
+jiayan	前nd/ 几m/ 天q/ ，wp/ 狼子n/ 村n/ 的u/ 佃户n/ 来告v/ 荒n/ ，wp/ 对p/ 我r/ 大a/ 哥n/ 说v/ ，wp/ 他们r/ 村里n/ 的u/ 一个m/ 大a/ 恶人n/ ，wp/ 给p/ 大a/ 家n/ 打死v/ 了u/ ；wp/ 几个m/ 人n/ 便d/ 挖出v/ 他的r/ 心肝n/ 来v/ ，wp/ 用p/ 油煎n/ 炒v/ 了u/ 吃v/ ，wp/ 可v/ 以p/ 壮a/ 壮a/ 胆n/ 子n/ 。wp/ 
+jiagu	前几天nt/ ，w/ 狼n/ 子k/ 村n/ 的u/ 佃户n/ 来vd/ 告v/ 荒a/ ，w/ 对p/ 我r/ 大哥n/ 说v/ ，w/ 他们r/ 村里nl/ 的u/ 一个mq/ 大a/ 恶人n/ ，w/ 给p/ 大家n/ 打死v/ 了u/ ；w/ 几个mq/ 人n/ 便d/ 挖出v/ 他r/ 的u/ 心肝n/ 来vd/ ，w/ 用v/ 油煎n/ 炒v/ 了u/ 吃v/ ，w/ 可以vu/ 壮壮胆v/ 子n/ 。w/ 
+thulac	前f/ 几m/ 天q/ ，w/ 狼子村ns/ 的u/ 佃户n/ 来v/ 告荒v/ ，w/ 对p/ 我r/ 大哥n/ 说v/ ，w/ 他们r/ 村里n/ 的u/ 一个m/ 大恶人n/ ，w/ 给p/ 大a/ 家n/ 打v/ 死v/ 了u/ ；w/ 几m/ 个q/ 人n/ 便d/ 挖v/ 出v/ 他r/ 的u/ 心肝n/ 来v/ ，w/ 用p/ 油煎n/ 炒v/ 了u/ 吃v/ ，w/ 可以v/ 壮壮a/ 胆子n/ 。w/ 
+pkuseg	前f/ 几m/ 天q/ ，w/ 狼子村ns/ 的u/ 佃户n/ 来v/ 告荒v/ ，w/ 对p/ 我r/ 大哥n/ 说v/ ，w/ 他们r/ 村里n/ 的u/ 一个m/ 大a/ 恶人n/ ，w/ 给p/ 大家r/ 打死v/ 了y/ ；w/ 几m/ 个人n/ 便d/ 挖出v/ 他r/ 的u/ 心肝n/ 来v/ ，w/ 用p/ 油煎n/ 炒v/ 了u/ 吃v/ ，w/ 可以v/ 壮壮a/ 胆子n/ 。w/ 
+
