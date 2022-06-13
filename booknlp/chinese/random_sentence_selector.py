@@ -19,8 +19,8 @@ def random_select(num, sents, min_len):
     return sample
 
 if __name__ == '__main__':
-    book_name = "niehaihua"
-    file_name = "examples/with_poetry/"+book_name+".txt"
+    book_name = "zhaohuaxishi"
+    file_name = "examples/lu_xun/"+book_name+".txt"
     doc = read_from_txt(file_name)
     clean_doc = strip_header_footer(doc)
     sents = split_by_sentence(clean_doc)
@@ -28,5 +28,6 @@ if __name__ == '__main__':
     selected = random_select(5, sents, 30)
     print(selected)
     with open("annotation_50.txt", "a") as writer:
+        writer.write("\n朝花夕拾追加：\n")
         for sent in selected:
             writer.write(sent+"\n")
