@@ -1,5 +1,107 @@
+import pandas as pd
+from min_edit_distance import min_edit_distance
+
+""" input: list of sentences to tokenize
+output: list of lists of token strings """
+def jieba_tok_all(sentences):
+    import jieba
+    import jieba.posseg as pseg
+    import paddle
+    paddle.enable_static()
+    jieba.enable_paddle()
+    all_toks = []
+    for sent in sentences:
+        tok_pos_list = pseg.cut(sent,use_paddle=True) # returns list of (tok, pos)
+        sent_toks = [tok for tok, _ in tok_pos_list]
+        all_toks.append(sent_toks)
+    return all_toks
+
+""" input & output same as above """
+def lac_tok_all(sentences):
+    from LAC import LAC
+    lac = LAC(mode='lac')
+    tok_pos_list = lac.run(sentences) # returns list of (tok_list, pos_list)
+    all_toks = [tok_list for tok_list, _ in tok_pos_list]
+    return all_toks
+
+""" input & output same as above """
+def hanlp_tok_all(sentences):
+    from hanlp_restful import HanLPClient
+    HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
+    all_toks = HanLP.tokenize(sentences) # returns list of lists of token strings
+    return all_toks
+
+""" TODO: fill this out """
+# encountered tokenizers package version conflict
+def stanza_tok_all(sentences):
+    import stanza
+    nlp = stanza.Pipeline('zh', processor="tokenize")
+    all_toks = []
+    for sent in sentences:
+        doc = nlp(sent)
+        all_toks.append(doc.tokens)
+    return all_toks
+
+""" input & output same as above """
+def jiagu_tok_all(sentences):
+    import jiagu
+    all_toks = [jiagu.seg(sent) for sent in sentences]
+    return all_toks
+
+""" input & output same as above """
+def thulac_tok_all(sentences):
+    import thulac
+    import time
+    if not hasattr(time, 'clock'): # resolve deprecated method use 
+        setattr(time,'clock',time.perf_counter)
+    thu1 = thulac.thulac(seg_only=False)
+
+    all_toks = []
+    for sent in sentences:
+        tok_pos_str = thu1.cut(sent, text=True)  # returns string of "tok1_pos1 tok2_pos2" separated by whitespace
+        tok_pos_list = tok_pos_str.split(" ") # list of "tok1_pos1", "tok2_pos2"
+        toks = []
+        for tok_pos in tok_pos_list:
+            toks.append(tok_pos.split("_")[0])
+        all_toks.append(toks)
+    return all_toks
+
+def pkuseg_tok_all(sentences):
+    import pkuseg
+    seg = pkuseg.pkuseg(postag=True)           # load model using default params
+    all_toks = []
+    for sent in sentences:
+        tok_pos_list = seg.cut(sent)
+        tok_list = [tok for tok, _ in tok_pos_list]
+        all_toks.append(tok_list)
+    return all_toks
+
+# inputs: list of all sentence strings to tokenize; which tok model to use
+def tokenize_all_sents(sentences, model):
+    if model == "jieba":
+        return jieba_tok_all(sentences)
+    elif model == "lac":
+        return lac_tok_all(sentences)
+    elif model == "hanlp":
+        return hanlp_tok_all(sentences) # NOTE: this results in score of 582, much higher than before
+    elif model == "stanza":
+        return stanza_tok_all(sentences)
+    elif model == "jiagu":
+        return jiagu_tok_all(sentences)
+    elif model == "thulac":
+        return thulac_tok_all(sentences)
+    elif model == "pkuseg":
+        return pkuseg_tok_all(sentences)
+    return None
+
+def output_sents(file_name, tokenized, model):
+    with open(file_name, "a") as f:
+        f.write(model+"\n")
+        for sent in tokenized:
+            f.write("/".join(sent)+"\n")
+
 def predict(sentence, model="jieba"):
-    """predict segments by using different model.
+    """predict segments and part of speech by using different model.
     model list:
         "jieba",
         "lac",
@@ -93,49 +195,94 @@ def predict(sentence, model="jieba"):
         text = seg.cut(sentence)
         return text
 
-if __name__ == '__main__':
+
+def compare(sentences, standards, model):
+    assert len(sentences) == len(standards)
     import opencc
+    
+    # convert into simplified chinese
     converter = opencc.OpenCC('t2s.json')
-    
-    sentences_original = [
-        "是故内圣外王之道，暗而不明，郁而不发，天下之人各为其所欲焉以自为方。", # zhuangzi
-        '''并題一絕云：
-　　滿紙荒唐言，一把辛酸淚！
-　　都云作者痴，誰解其中味？
-　　出則既明，且看石上是何故事．''',
-        "吳媽﹐是趙太爺家裡唯一的女僕﹐洗完了碗碟﹐也就在長凳上坐下了﹐而且和阿Ｑ談閒天﹕“太太兩天沒有吃飯哩﹐因為老爺要買一個小的……”", # ah-q
-        "前幾天，狼子村的佃戶來告荒，對我大哥說，他們村裡的一個大惡人，給大家打死了；幾個人便挖出他的心肝來，用油煎炒了吃，可以壯壯膽子。", # diary of a madman
-    ]
-    sentences = [converter.convert(sentence) for sentence in sentences_original]
-    
+    sentences = [converter.convert(sentence) for sentence in sentences]
+
+    total = 0
+
+    # NOTE: below is code for when we tokenized one sent at a time
+    # for i in range(len(sentences)):
+    #     tokenized_list = tokenize(sentences[i], model)
+    #     # print(tokenized_list)
+    #     produced = "/".join(tokenized_list)
+    #     score = min_edit_distance(produced, standards[i])
+    #     total += score
+
+    tokenized = tokenize_all_sents(sentences, model)
+    output_sents("model_results_50.txt", tokenized, model)
+
+    for i in range(len(sentences)):
+        tok_str = "/".join(tokenized[i])
+        score = min_edit_distance(tok_str, standards[i])
+        total += score
+    return total
+
+if __name__ == '__main__':
     model_list = [
         "jieba",
         "lac", # baidu
         "hanlp",
-        #"stanza",
-        "jiayan",
+        # "stanza", # tokenizer package version conflict
+        # "jiayan", # model too large to be committed
         "jiagu",
-        #"ltp",
+        # "ltp", # tokenizer package version conflict
         "thulac",
         "pkuseg",
     ]
-    res_list = [] # list of results for each sentence
-    for sentence in sentences:
-        model_res = [] # list of results for each model
-        for model in model_list:
-            model_res.append((model, predict(sentence, model)))
-        res_list.append(model_res)
+
+    # previous example sentences
+    #     sentences = [
+# #         "是故内圣外王之道，暗而不明，郁而不发，天下之人各为其所欲焉以自为方。", # zhuangzi
+# #         '''并題一絕云：
+# # 　　滿紙荒唐言，一把辛酸淚！
+# # 　　都云作者痴，誰解其中味？
+# # 　　出則既明，且看石上是何故事．''',
+# #         "吳媽﹐是趙太爺家裡唯一的女僕﹐洗完了碗碟﹐也就在長凳上坐下了﹐而且和阿Ｑ談閒天﹕“太太兩天沒有吃飯哩﹐因為老爺要買一個小的……”", # ah-q
+#         "前幾天，狼子村的佃戶來告荒，對我大哥說，他們村裡的一個大惡人，給大家打死了；幾個人便挖出他的心肝來，用油煎炒了吃，可以壯壯膽子。", # diary of a madman
+#     ]
+
+    with open("annotation_50.txt", "r") as f:
+        sentences = f.readlines()
+    sentences = [sent.rstrip('\n') for sent in sentences]
+
+    res_list = [] # list of scores for each model
+
+    # read from gold standard result
+    standards = pd.read_csv("annotation/standard_tokenization.csv")
+    standards = list(standards.iloc[:, 1])
+
+    for model in model_list:
+        score = compare(sentences, standards, model)
+        with open("model_results_50.txt", "a" ) as f:
+            f.write("The {} tokenizer results in {} number of edits\n".format(model, score))
+            f.write("\n")
+        res_list.append((model,score))
+        print(model, score)
+    # for sentence in sentences:
+    #     model_res = [] # list of results for each model
+    #     for model in model_list:
+    #         tokenized = tokenize(sentence, model)
+    #         print(tokenized)
+    #         model_res.append((model, tokenized))
+    #     res_list.append(model_res)
     # print(res_list)
     
     # output text file for all models of all sentences
-    with open('model_results.txt', 'w') as writer:
-        for i in range(len(sentences)):
-            writer.write(sentences[i]+"\n")
-            for model, tokens in res_list[i]:
-                writer.write(model+"\t")
-                sent = ""
-                for token_pos in tokens:
-                    sent += ("".join(token_pos)+"/ ")
-                writer.write(sent+"\n")
-            writer.write("\n")
+    # with open('model_results.txt', 'w') as writer:
+    #     for i in range(len(sentences)):
+    #         writer.write(sentences[i]+"\n")
+    #         for model, tokens in res_list[i]:
+    #             writer.write(model+"\t")
+    #             sent = ""
+    #             for token_pos in tokens:
+    #                 sent += ("".join(token_pos)+"/ ")
+    #             writer.write(sent+"\n")
+    #         writer.write("\n")
+
 
