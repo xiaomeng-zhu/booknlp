@@ -94,11 +94,13 @@ def tokenize_all_sents(sentences, model):
         return pkuseg_tok_all(sentences)
     return None
 
-def output_sents(file_name, tokenized, model):
+def output_sents_txt(file_name, tokenized, model, score):
     with open(file_name, "a") as f:
         f.write(model+"\n")
         for sent in tokenized:
             f.write("/".join(sent)+"\n")
+        f.write("The {} tokenizer results in {} number of edits\n".format(model, score))
+        f.write("\n")
 
 def predict(sentence, model="jieba"):
     """predict segments and part of speech by using different model.
@@ -196,7 +198,7 @@ def predict(sentence, model="jieba"):
         return text
 
 
-def compare(sentences, standards, model):
+def calculate_score(sentences, standards, model):
     assert len(sentences) == len(standards)
     import opencc
     
@@ -215,13 +217,14 @@ def compare(sentences, standards, model):
     #     total += score
 
     tokenized = tokenize_all_sents(sentences, model)
-    output_sents("model_results_50.txt", tokenized, model)
+    tokenized_strings = []
 
     for i in range(len(sentences)):
         tok_str = "/".join(tokenized[i])
+        tokenized_strings.append(tok_str)
         score = min_edit_distance(tok_str, standards[i])
         total += score
-    return total
+    return tokenized_strings, total
 
 if __name__ == '__main__':
     model_list = [
@@ -257,13 +260,19 @@ if __name__ == '__main__':
     standards = pd.read_csv("annotation/standard_tokenization.csv")
     standards = list(standards.iloc[:, 1])
 
+    all_model_sents = []
+
     for model in model_list:
-        score = compare(sentences, standards, model)
-        with open("model_results_50.txt", "a" ) as f:
-            f.write("The {} tokenizer results in {} number of edits\n".format(model, score))
-            f.write("\n")
-        res_list.append((model,score))
+        tokenized, score = calculate_score(sentences, standards, model)
+        all_model_sents.append(tokenized) # nested list of model and sentence
+        output_sents_txt("model_results_50.txt", tokenized, model, score)
         print(model, score)
+    
+    # output csv file for all tokenized results of all models
+    df = pd.DataFrame(all_model_sents, index=model_list, columns=range(1,51))
+    df.to_csv("model_results_50.csv")
+
+        
     # for sentence in sentences:
     #     model_res = [] # list of results for each model
     #     for model in model_list:
