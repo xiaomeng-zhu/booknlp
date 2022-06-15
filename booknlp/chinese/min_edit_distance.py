@@ -16,6 +16,7 @@ def min_edit_distance(sent1, sent2):
     m = len(sent2)
 
     matrix = [[i+j for j in range(m+1)] for i in range(n+1)]
+    # print(matrix)
 
     for i in range(1, n+1):
         for j in range(1, m+1):
@@ -32,6 +33,8 @@ def min_edit_distance(sent1, sent2):
 
 
 if __name__ == "__main__":
+    # count = min_edit_distance("《/中国/革命/记/》/", "《/中/国革/命/记/》/")
+    # print(count)
     miranda = pd.read_csv("annotation/miranda_tokenization.csv")
     kiara = pd.read_csv("annotation/kiara_tokenization.csv")
 

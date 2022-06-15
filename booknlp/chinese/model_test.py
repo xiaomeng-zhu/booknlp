@@ -31,8 +31,8 @@ def hanlp_tok_all(sentences):
     all_toks = HanLP.tokenize(sentences) # returns list of lists of token strings
     return all_toks
 
-""" TODO: fill this out """
-# encountered tokenizers package version conflict
+""" input & output same as above 
+    NOTE: encountered tokenizers package version conflict """
 def stanza_tok_all(sentences):
     import stanza
     nlp = stanza.Pipeline('zh', processor="tokenize")
@@ -55,7 +55,6 @@ def thulac_tok_all(sentences):
     if not hasattr(time, 'clock'): # resolve deprecated method use 
         setattr(time,'clock',time.perf_counter)
     thu1 = thulac.thulac(seg_only=False)
-
     all_toks = []
     for sent in sentences:
         tok_pos_str = thu1.cut(sent, text=True)  # returns string of "tok1_pos1 tok2_pos2" separated by whitespace
@@ -66,17 +65,32 @@ def thulac_tok_all(sentences):
         all_toks.append(toks)
     return all_toks
 
+""" input & output same as above """
 def pkuseg_tok_all(sentences):
     import pkuseg
     seg = pkuseg.pkuseg(postag=True)           # load model using default params
     all_toks = []
     for sent in sentences:
-        tok_pos_list = seg.cut(sent)
+        tok_pos_list = seg.cut(sent) # returns list of (tok, pos)
         tok_list = [tok for tok, _ in tok_pos_list]
         all_toks.append(tok_list)
     return all_toks
 
-# inputs: list of all sentence strings to tokenize; which tok model to use
+""" input & output same as above 
+    NOTE: encountered tokenizers package version conflict """
+def ltp_tok_all(sentences):
+    from ltp import LTP
+    ltp = LTP()
+    segment, _ = ltp.seg(sentences) # returns list of lists of (tok,pos)
+    # print(ltp.seg(sentences))
+    ltp_res = ""
+    for sentList in segment:
+        ltp_res += " ".join(sentList)
+    return segment
+
+
+""" inputs: list of all sentence strings to tokenize; which tok model to use 
+    output: list of lists of token strings, depending on model"""
 def tokenize_all_sents(sentences, model):
     if model == "jieba":
         return jieba_tok_all(sentences)
@@ -92,7 +106,10 @@ def tokenize_all_sents(sentences, model):
         return thulac_tok_all(sentences)
     elif model == "pkuseg":
         return pkuseg_tok_all(sentences)
-    return None
+    elif model == "ltp":
+        return ltp_tok_all(sentences)
+    else:
+        return None
 
 def output_sents_txt(file_name, tokenized, model, score):
     with open(file_name, "a") as f:
@@ -104,17 +121,6 @@ def output_sents_txt(file_name, tokenized, model, score):
 
 def predict(sentence, model="jieba"):
     """predict segments and part of speech by using different model.
-    model list:
-        "jieba",
-        "lac",
-        "thulac",
-        "jiagu",
-        #"pkuseg",
-        "hanlp",
-        "jiayan",
-    Args:
-        sentence: the input.
-    Returns:
     """
     if model == "jieba":
         import jieba
@@ -171,14 +177,14 @@ def predict(sentence, model="jieba"):
         jiagu_pos = jiagu.pos(jiagu_res)
         words_list = [(jiagu_res[i], jiagu_pos[i]) for i in range(len(jiagu_res))]
         return words_list
-    # elif model== "ltp": # in ltp_test.py
-    #     from ltp import LTP
-    #     ltp = LTP()
-    #     segment, hidden = ltp.seg([sentence])
-    #     ltp_res = ""
-    #     for sentList in segment:
-    #         ltp_res += " ".join(sentList)
-    #     return ltp_res
+    elif model== "ltp": # in ltp_test.py
+        from ltp import LTP
+        ltp = LTP()
+        segment, hidden = ltp.seg([sentence])
+        ltp_res = ""
+        for sentList in segment:
+            ltp_res += " ".join(sentList)
+        return ltp_res
     elif model == "thulac":
         import thulac
         import time
@@ -208,14 +214,6 @@ def calculate_score(sentences, standards, model):
 
     total = 0
 
-    # NOTE: below is code for when we tokenized one sent at a time
-    # for i in range(len(sentences)):
-    #     tokenized_list = tokenize(sentences[i], model)
-    #     # print(tokenized_list)
-    #     produced = "/".join(tokenized_list)
-    #     score = min_edit_distance(produced, standards[i])
-    #     total += score
-
     tokenized = tokenize_all_sents(sentences, model)
     tokenized_strings = []
 
@@ -229,9 +227,9 @@ def calculate_score(sentences, standards, model):
 if __name__ == '__main__':
     model_list = [
         "jieba",
-        "lac", # baidu
+        "lac",
         "hanlp",
-        # "stanza", # tokenizer package version conflict
+        "stanza", # tokenizer package version conflict
         # "jiayan", # model too large to be committed
         "jiagu",
         # "ltp", # tokenizer package version conflict
@@ -271,7 +269,6 @@ if __name__ == '__main__':
     # output csv file for all tokenized results of all models
     df = pd.DataFrame(all_model_sents, index=model_list, columns=range(1,51))
     df.to_csv("model_results_50.csv")
-
         
     # for sentence in sentences:
     #     model_res = [] # list of results for each model
@@ -293,5 +290,3 @@ if __name__ == '__main__':
     #                 sent += ("".join(token_pos)+"/ ")
     #             writer.write(sent+"\n")
     #         writer.write("\n")
-
-
