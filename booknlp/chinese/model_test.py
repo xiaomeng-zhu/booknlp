@@ -231,11 +231,11 @@ def calculate_score(sentences, standards, model):
 #     # if auth is None then it is connected to the server anonymously
 #     # language = 'zh' for chinese, language = 'mul' for multi languages
 #     hlp = HanLP.tokenize(sentences)
-#     pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
+#     pos_res = HanLP(tokens=hlp, tasks='pos/pku') # a dictionary
 #     words_list = []
 #     for i, sent in enumerate(pos_res["tok"]):
 #         for j in range(len(sent)):
-#             words_list.append((pos_res["tok"][i][j], pos_res["pos/863"][i][j]))
+#             words_list.append((pos_res["tok"][i][j], pos_res["pos/pku"][i][j]))
 #     print(words_list)
     
 if __name__ == '__main__':
