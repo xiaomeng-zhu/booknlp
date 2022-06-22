@@ -41,8 +41,6 @@ def pos_mismatch(res1, res2):
         total_mismatch_perc += perc
     
     average_mismatch = total_mismatch_perc/num_sent
-
-        
     
     return total_mismatch, average_mismatch, mismatch_list
 
@@ -57,10 +55,10 @@ if __name__ == "__main__":
     m_tok_pos = parse_tok_pos(m_pos)
     k_tok_pos = parse_tok_pos(k_pos)
 
-    agreement, average_mismatch, mistmatch_list = pos_mismatch(m_tok_pos, k_tok_pos)
+    agreement, average_mismatch, mismatch_list = pos_mismatch(m_tok_pos, k_tok_pos)
     print("There are {} total mismatches of POS tagging".format(agreement))
     print("The average percentage of mismatch per sentence is {}.".format(average_mismatch))
-    mismatch_df = pd.DataFrame(mistmatch_list, columns=["sent_idx", "tok", "m_tag", "k_tag"]).to_csv("pos_mismatch_tokens.csv")
+    mismatch_df = pd.DataFrame(mismatch_list, columns=["sent_idx", "tok", "m_tag", "k_tag"]).to_csv("pos_mismatch_tokens.csv")
 
     # There are 233 total mismatches of POS tagging
     # The average percentage of mismatch per sentence is 0.14554441853443462.
