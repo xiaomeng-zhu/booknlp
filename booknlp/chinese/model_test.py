@@ -1,106 +1,15 @@
+from this import s
 import pandas as pd
 from min_edit_distance import min_edit_distance
 from pos_match import parse_tok_pos
 from pos_match import pos_mismatch
+from pos_map import * # import dicts that convert pos tag sets
 
-convert_from = "pku" # by default, convert jiagu pos to pku
-
-map_jiagupos_pku = { # a dictionary that maps jiagu pos tag to pku
-    "n":"n",
-    "nt":"t",
-    "nd":"f",
-    "nl":"s",
-    "nh":"nr",
-    "nhf":"nr",
-    "nhs":"nr",
-    "ns":"ns",
-    "nn":"n",
-    "ni":"nt",
-    "nz":"nz",
-    "v":"v",
-    "vd":"vd",
-    "vl":"v",
-    "vu":"v",
-    "a":"a",
-    "f":"b", #区别词
-    "mq":"m",
-    "m":"m",
-    "q":"q",
-    "d":"d",
-    "r":"r",
-    "p":"p",
-    "c":"c",
-    "u":"u",
-    "e":"e",
-    "o":"o",
-    "i": "i", # 习用语
-    "j":"j",
-    "h":"h",
-    "k":"k",
-    "g":"xxx", # in original pku tagset but not used by hanlp
-    "x":"x",
-    "w":"w",
-    "ws": "nx",
-    "wu":"w",
-}
-
-map_pku_jiagupos = { # a dictionary that pku to jiagu pos
-    "Ag":"a",
-    "a":"a",
-    "ad":"d", # categorize 副形词 as 副词
-    "an":"n", # categorize 名形词 as 名词
-    "Bg":"b",
-    "b":"b",
-    "c":"c",
-    "Dg":"d",
-    "d":"d",
-    "e":"e",
-    "f":"nd",
-    "h":"h",
-    "i":"i",
-    "j":"j",
-    "k":"k",
-    "l":"i",
-    "Mg":"m",
-    "m":"m",
-    "Ng":"n",
-    "n":"n",
-    "nr":"nh",
-    "ns":"ns",
-    "nt":"ni",
-    "nx":"ws",
-    "nz":"nz",
-    "o":"o",
-    "p":"p",
-    "q":"q",
-    "Rg":"r",
-    "r":"r",
-    "s":"nl",
-    "Tg":"nt",
-    "t":"nt",
-    "u":"u",
-    "Vg":"v",
-    "v":"v",
-    "vd":"d", # categorize 副动词 as 副词
-    "vn":"n", # categorize 名动词 as 名词
-    "w":"w",
-    "x":"x",
-    "Yg":"u", # categorize 语气词 as 助词
-    "y":"u", # categorize 语气词 as 助词
-    "z":"a",
-}
-
-def convert_pos_jiagupos_pku(tok_poss):
-    # takes in a list of list of pos
-    return [(tok, map_jiagupos_pku[pos]) for tok, pos in tok_poss]
-
-def convert_pos_pku_jiagupos(tok_poss):
-    # takes in a list of list of tok pos tuples
-    return [(tok, map_pku_jiagupos[pos]) for tok, pos in tok_poss]
+# convert_from = "jiagu"
 
 """ input: list of sentences to tokenize
 output: list of lists of token strings """
-def jieba_process_all(sentences, tok=True, pos=True):
+def jieba_process_all(sentences, tok=True, pos=True, tokenized=[]):
     # cannot provide pos based on tokenized result
     import jieba
     import jieba.posseg as pseg
@@ -110,7 +19,8 @@ def jieba_process_all(sentences, tok=True, pos=True):
 
     all_res = []
     for sent in sentences:
-        tok_pos_list = pseg.cut(sent,use_paddle=True) # returns list of (tok, pos)
+        tok_pos_obj = pseg.cut(sent,use_paddle=True) # returns list of (tok, pos)
+        tok_pos_list = [(tok, pos) for tok, pos in tok_pos_obj]
         if pos:
             all_res.append(tok_pos_list)
         else:
@@ -120,7 +30,7 @@ def jieba_process_all(sentences, tok=True, pos=True):
     return all_res
 
 """ input & output same as above """
-def lac_process_all(sentences, tok=True, pos=True):
+def lac_process_all(sentences, tok=True, pos=True, tokenized=[]):
     # cannot provide pos based on tokenized result
     from LAC import LAC
 
@@ -129,9 +39,12 @@ def lac_process_all(sentences, tok=True, pos=True):
 
     if tok:
         all_toks = [tok_list for tok_list, _ in tok_pos_list]
-        return all_toks
-    else:
-        return [zip(tok_list, pos_list) for tok_list, pos_list in tok_pos_list]
+        if not pos: # only perform tokenization
+            return all_toks
+        else:
+            return [list(zip(tok_list, pos_list)) for tok_list, pos_list in tok_pos_list]
+    
+    # cannot perform only pos tagging
 
 """ input & output same as above """
 def hanlp_process_all(sentences, tok=True, pos=True, tokenized=[]):
@@ -146,7 +59,11 @@ def hanlp_process_all(sentences, tok=True, pos=True, tokenized=[]):
         if not pos:
             return all_toks
         else: # run pos tagging on tokens from hanlp
-            all_toks_pos = HanLP(tokens=all_toks, tasks='pos/pku')
+            all_toks_pos_dict = HanLP(tokens=all_toks, tasks='pos/pku')
+            all_toks_pos = []
+            # format output
+            for i in range(len(sentences)):
+                all_toks_pos.append(list(zip(all_toks_pos_dict["tok"][i], all_toks_pos_dict["pos/pku"][i])))
             return all_toks_pos
     else: # perform only pos tagging
         assert pos and tokenized != [] # user needs to supply outside tokenized result
@@ -178,8 +95,12 @@ def jiagu_process_all(sentences, tok=True, pos=True, tokenized=[]):
         all_toks = [jiagu.seg(sent) for sent in sentences]
         if not pos:
             return all_toks
-        else: 
-            return [jiagu.pos(toks) for toks in all_toks]
+        else:
+            all_pos = [jiagu.pos(toks) for toks in all_toks]
+            for i in range(len(all_toks)):
+                all_toks_pos.append(list(zip(all_toks[i], all_pos[i])))
+            return all_toks_pos
+
     else: # perform only pos tagging
         assert pos and tokenized != []
         all_pos = [jiagu.pos(toks) for toks in tokenized]
@@ -191,11 +112,10 @@ def jiagu_process_all(sentences, tok=True, pos=True, tokenized=[]):
         
         for i in range(len(tokenized)):
             all_toks_pos.append(list(zip(tokenized[i], all_pos[i])))
-        # print(all_toks_pos)
         return all_toks_pos
 
 """ input & output same as above """
-def thulac_process_all(sentences, tok=True, pos=True):
+def thulac_process_all(sentences, tok=True, pos=True, tokenized=[]):
     # cannot provide pos based on tokenized result. i.e. tok must be True when pos is True
 
     import thulac
@@ -217,10 +137,11 @@ def thulac_process_all(sentences, tok=True, pos=True):
                 res.append(tok_pos.split("_")[0])
         all_res.append(res)
     
+    # print(all_res)
     return all_res
 
 """ input & output same as above """
-def pkuseg_process_all(sentences, tok=True, pos=True):
+def pkuseg_process_all(sentences, tok=True, pos=True, tokenized=[]):
     import pkuseg
     seg = pkuseg.pkuseg(postag=True)           # load model using default params
 
@@ -270,6 +191,21 @@ def tok_all_sents(sentences, model):
     else:
         return None
 
+def process_untokenized_sents(sentences, model):
+    if model == "jieba":
+        return jieba_process_all(sentences, True, True)
+    elif model == "lac":
+        return lac_process_all(sentences, True, True)
+    elif model == "thulac":
+        return thulac_process_all(sentences, True, True)
+    elif model == "pkuseg":
+        return pkuseg_process_all(sentences, True, True)
+    elif model == "hanlp":
+        return hanlp_process_all(sentences, True, True, [])
+    elif model == "jiagu":
+        return jiagu_process_all(sentences, True, True, [])
+    # stanza and ltp not included bc they never work
+
 def process_tokenized_sents(sentences, model, tokenized):
     if model == "hanlp":
         return hanlp_process_all(sentences, False, True, tokenized) 
@@ -287,6 +223,8 @@ def output_sents_txt(file_name, tokenized, model, score):
         f.write("\n")
 
 def calculate_score(sentences, standards, model):
+    # calculate the average minimum edit distance for all sentences
+
     assert len(sentences) == len(standards)
     import opencc
     
@@ -306,17 +244,18 @@ def calculate_score(sentences, standards, model):
         total += score
     return tokenized_strings, total
     
+# for models that do not support customized tokens
 if __name__ == '__main__':
     model_list = [
-        # "jieba",
-        # "lac",
+        "jieba",
+        "lac", # uses modified 863
         "hanlp",
         # "stanza", # tokenizer package version conflict
         # "jiayan", # model too large to be committed
         "jiagu",
         # "ltp", # tokenizer package version conflict
-        # "thulac",
-        # "pkuseg",
+        "thulac", # uses 863
+        "pkuseg",
     ]
 
     # original sentences as untokenized strings
@@ -331,38 +270,100 @@ if __name__ == '__main__':
 
     # gold standard tok and pos result
     standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
-    standards_tok_pos = list(standards_tok_pos.iloc[:, 1])
-    standards_tok_pos = parse_tok_pos(standards_tok_pos)
+    standards_tok_pos = list(standards_tok_pos.iloc[:, 1]) # list of strings
+
+    standards_pos = [] # list of lists of pos
+    for sent in standards_tok_pos:
+        pos_list = []
+        tok_pos_list = sent.split("/")
+        for tok_pos in tok_pos_list:
+            pos_list.append(tok_pos.split("_")[1]) # list of lists of pos
+        standards_pos.append(pos_list)
+    standards_pos_converted = map(convert_to_general, "hanlp", standards_pos),
 
     for model in model_list:
-        res = process_tokenized_sents(sentences, model, standards_tok)
-        direction = ""
+        res = process_untokenized_sents(sentences, model) # list of lists of tok pos tuple
+        res_poss = []
+        for tok_pos_list in res:
+            pos_list = []
+            for tok, pos in tok_pos_list:
+                pos_list.append(pos)
+            res_poss.append(pos_list)
+        res_poss = [convert_to_general(model, pos_list) for pos_list in res_poss]
+        # print(res_poss)
+        
+        total_score = 0
+        for i in range(len(res)):
+            score = min_edit_distance(res_poss[i], standards_pos[i])
+            total_score += score
+        print(model, total_score/len(res))
+
+    # average number of edits per sentence, all converted to general for comparison
+    # jieba 17.14
+    # lac 9.06
+    # hanlp 7.4
+    # jiagu 14.1
+    # thulac 11.6
+    # pkuseg 11.36
+
+        
+# if __name__ == '__main__':
+#     model_list = [
+#         # "jieba",
+#         # "lac",
+#         "hanlp",
+#         # "stanza", # tokenizer package version conflict
+#         # "jiayan", # model too large to be committed
+#         "jiagu",
+#         # "ltp", # tokenizer package version conflict
+#         # "thulac",
+#         # "pkuseg",
+#     ]
+
+#     # original sentences as untokenized strings
+#     with open("annotation_50.txt", "r") as f:
+#         sentences = f.readlines()
+#     sentences = [sent.rstrip('\n') for sent in sentences]
+
+#     # gold standard tokenized result
+#     standards_tok = pd.read_csv("annotation/standard_tokenization.csv")
+#     standards_tok = list(standards_tok.iloc[:, 1]) # list of strings with tokens separated by / 
+#     standards_tok = [sent_string.split("/") for sent_string in standards_tok]
+
+#     # gold standard tok and pos result
+#     standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
+#     standards_tok_pos = list(standards_tok_pos.iloc[:, 1])
+#     standards_tok_pos = parse_tok_pos(standards_tok_pos)
+
+#     for model in model_list:
+#         res = process_tokenized_sents(sentences, model, standards_tok)
+#         direction = ""
     
-        if model == "jiagu":
-            if convert_from == "jiagu": # convert jiagu pos to pku
-                res = list(map(convert_pos_jiagupos_pku, res))
-                direction = "_model2pku"
-            else: # convert gold standard to jiagu pos
-                standards_tok_pos = list(map(convert_pos_pku_jiagupos, standards_tok_pos))
-                direction = "_standard2jiagu"
+#         if model == "jiagu":
+#             if convert_from == "jiagu": # convert jiagu pos to pku
+#                 res = list(map(convert_pos_jiagupos_pku, res))
+#                 direction = "_model2pku"
+#             else: # convert gold standard to jiagu pos
+#                 standards_tok_pos = list(map(convert_pos_pku_jiagupos, standards_tok_pos))
+#                 direction = "_standard2jiagu"
 
-        total_mismatch, average_mismatch, mismatch_list = pos_mismatch(standards_tok_pos, res)
+#         total_mismatch, average_mismatch, mismatch_list = pos_mismatch(standards_tok_pos, res)
         
-        print(model, total_mismatch, average_mismatch)
-        file_name = "{}_pos_mismatch{}.csv".format(model, direction)
+#         print(model, total_mismatch, average_mismatch)
+#         file_name = "{}_pos_mismatch{}.csv".format(model, direction)
         
         
-        mismatch_df = pd.DataFrame(mismatch_list, 
-                columns=["sent_idx", "tok", "standard", model]).to_csv(file_name)
+#         mismatch_df = pd.DataFrame(mismatch_list, 
+#                 columns=["sent_idx", "tok", "standard", model]).to_csv(file_name)
         
 
-    # average percent mismatch when convert jiagupos to pku
-    # hanlp 253 0.16073418054397515
-    # jiagu 428 0.2694341499643043
+#     # average percent mismatch when convert jiagupos to pku
+#     # hanlp 253 0.16073418054397515
+#     # jiagu 428 0.2694341499643043
 
-    # average percent mismatch when convert gold standard pos in pku to jiagupos
-    # hanlp 253 0.16073418054397515
-    # jiagu 458 0.28878558958873424
+#     # average percent mismatch when convert gold standard pos in pku to jiagupos
+#     # hanlp 253 0.16073418054397515
+#     # jiagu 458 0.28878558958873424
 
 
 # if __name__ == '__main__':
