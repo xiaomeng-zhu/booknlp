@@ -242,132 +242,147 @@ def calculate_score(sentences, standards, model):
     return tokenized_strings, total
     
 # ================ for models that do not support customized tokens ================
-if __name__ == '__main__':
-    model_list = [
-        "jieba",
-        "lac", # uses modified 863
-        "hanlp",
-        # "stanza", # tokenizer package version conflict
-        # "jiayan", # model too large to be committed
-        "jiagu",
-        # "ltp", # tokenizer package version conflict
-        "thulac", # uses 863
-        "pkuseg",
-    ]
-
-    # read original sentences as untokenized strings
-    with open("annotation_50.txt", "r") as f:
-        sentences = f.readlines()
-    sentences = [sent.rstrip('\n') for sent in sentences]
-
-    # read gold standard tokenized result
-    standards_tok = pd.read_csv("annotation/standard_tokenization.csv")
-    standards_tok = list(standards_tok.iloc[:, 1]) # list of strings with tokens separated by / 
-    standards_tok = [sent_string.split("/") for sent_string in standards_tok]
-
-    # read gold standard tok and pos result
-    standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
-    standards_tok_pos = list(standards_tok_pos.iloc[:, 1]) # list of strings
-
-    # get all gold standard part of speech tags
-    standards_pos = [] # list of lists of pos
-    for sent in standards_tok_pos:
-        pos_list = []
-        tok_pos_list = sent.split("/")
-        for tok_pos in tok_pos_list:
-            pos_list.append(tok_pos.split("_")[1]) # list of lists of pos
-        standards_pos.append(pos_list)
-    standards_pos_converted = map(convert_to_general, "hanlp", standards_pos),
-
-    for model in model_list:
-        res = process_untokenized_sents(sentences, model) # list of lists of tok pos tuple
-        res_df = pd.DataFrame(res, index=range(1,51))
-        res_df.to_csv("model_results/{}_pos_all.csv".format(model))
-
-        res_poss = []
-        for tok_pos_list in res:
-            pos_list = []
-            for tok, pos in tok_pos_list:
-                pos_list.append(pos)
-            res_poss.append(pos_list)
-        res_poss = [convert_to_general(model, pos_list) for pos_list in res_poss]
-
-        res_poss_df = pd.DataFrame(res_poss, index=range(1,51))
-        res_poss_df.to_csv("model_results/{}_pos_all_converted.csv".format(model))
-        # print(res_poss)
-        
-        total_score = 0
-        for i in range(len(res)):
-            score = min_edit_distance(res_poss[i], standards_pos[i])
-            total_score += score
-        print(model, total_score/len(res))
-
-    # average number of edits per sentence, all converted to general for comparison
-    # jieba 17.14
-    # lac 9.06
-    # hanlp 7.4
-    # jiagu 14.1
-    # thulac 11.6
-    # pkuseg 11.36
-
-# ================ for models that support customized tokens ================
 # if __name__ == '__main__':
 #     model_list = [
-#         # "jieba",
-#         # "lac",
+#         "jieba",
+#         "lac", # uses modified 863
 #         "hanlp",
 #         # "stanza", # tokenizer package version conflict
 #         # "jiayan", # model too large to be committed
 #         "jiagu",
 #         # "ltp", # tokenizer package version conflict
-#         # "thulac",
-#         # "pkuseg",
+#         "thulac", # uses 863
+#         "pkuseg",
 #     ]
 
-#     # original sentences as untokenized strings
+#     # read original sentences as untokenized strings
 #     with open("annotation_50.txt", "r") as f:
 #         sentences = f.readlines()
 #     sentences = [sent.rstrip('\n') for sent in sentences]
 
-#     # gold standard tokenized result
+#     # read gold standard tokenized result
 #     standards_tok = pd.read_csv("annotation/standard_tokenization.csv")
 #     standards_tok = list(standards_tok.iloc[:, 1]) # list of strings with tokens separated by / 
 #     standards_tok = [sent_string.split("/") for sent_string in standards_tok]
 
-#     # gold standard tok and pos result
+#     # read gold standard tok and pos result
 #     standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
-#     standards_tok_pos = list(standards_tok_pos.iloc[:, 1])
-#     standards_tok_pos = parse_tok_pos(standards_tok_pos)
+#     standards_tok_pos = list(standards_tok_pos.iloc[:, 1]) # list of strings
+
+#     # get all gold standard part of speech tags
+#     standards_pos = [] # list of lists of pos
+#     for sent in standards_tok_pos:
+#         pos_list = []
+#         tok_pos_list = sent.split("/")
+#         for tok_pos in tok_pos_list:
+#             pos_list.append(tok_pos.split("_")[1]) # list of lists of pos
+#         standards_pos.append(pos_list)
+#     standards_pos_converted = map(convert_poslist_to_general, "hanlp", standards_pos),
 
 #     for model in model_list:
-#         res = process_tokenized_sents(sentences, model, standards_tok)
-#         direction = ""
-    
-#         if model == "jiagu":
-#             if convert_from == "jiagu": # convert jiagu pos to pku
-#                 res = list(map(convert_pos_jiagupos_pku, res))
-#                 direction = "_model2pku"
-#             else: # convert gold standard to jiagu pos
-#                 standards_tok_pos = list(map(convert_pos_pku_jiagupos, standards_tok_pos))
-#                 direction = "_standard2jiagu"
+#         res = process_untokenized_sents(sentences, model) # list of lists of tok pos tuple
+        
+#         # save unconverted pos results
+#         res_df = pd.DataFrame(res, index=range(1,51))
+#         res_df.to_csv("model_results/{}_pos_all.csv".format(model))
 
-#         total_mismatch, average_mismatch, mismatch_list = pos_mismatch(standards_tok_pos, res)
+#         res_poss = []
+#         for tok_pos_list in res:
+#             pos_list = []
+#             for tok, pos in tok_pos_list:
+#                 pos_list.append(pos)
+#             res_poss.append(pos_list)
+#         res_poss = [convert_poslist_to_general(model, pos_list) for pos_list in res_poss]
+
+#         # save converted pos results
+#         res_poss_df = pd.DataFrame(res_poss, index=range(1,51))
+#         res_poss_df.to_csv("model_results/{}_pos_all_converted.csv".format(model))
+#         # print(res_poss)
         
-#         print(model, total_mismatch, average_mismatch)
-#         file_name = "{}_pos_mismatch{}.csv".format(model, direction)
+#         total_score = 0
+#         for i in range(len(res)):
+#             score = min_edit_distance(res_poss[i], standards_pos[i])
+#             total_score += score
+#         print(model, total_score/len(res))
+
+#     # average number of edits per sentence, all converted to general for comparison
+#     # jieba 17.14
+#     # lac 9.06
+#     # hanlp 7.4
+#     # jiagu 14.1
+#     # thulac 11.6
+#     # pkuseg 11.36
+
+# ================ for models that support customized tokens ================
+if __name__ == '__main__':
+    model_list = [
+        # "jieba",
+        # "lac",
+        "hanlp",
+        # "stanza", # tokenizer package version conflict
+        # "jiayan", # model too large to be committed
+        "jiagu",
+        # "ltp", # tokenizer package version conflict
+        # "thulac",
+        # "pkuseg",
+    ]
+
+    # original sentences as untokenized strings
+    with open("annotation_50.txt", "r") as f:
+        sentences = f.readlines()
+    sentences = [sent.rstrip('\n') for sent in sentences]
+
+    # gold standard tokenized result
+    standards_tok = pd.read_csv("annotation/standard_tokenization.csv")
+    standards_tok = list(standards_tok.iloc[:, 1]) # list of strings with tokens separated by / 
+    standards_tok = [sent_string.split("/") for sent_string in standards_tok]
+
+    # gold standard tok and pos result
+    standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
+    standards_tok_pos = list(standards_tok_pos.iloc[:, 1])
+    standards_tok_pos = parse_tok_pos(standards_tok_pos)
+
+    # convert gold standard result to general tagging
+    standards_tok_pos_converted = [convert_tokposlist_to_general("hanlp", tok_pos_list) for tok_pos_list in standards_tok_pos]
+    # print(standards_tok_pos_converted)
+
+    for model in model_list:
+        # print(model)
+        res = process_tokenized_sents(sentences, model, standards_tok)
+        res_converted = [convert_tokposlist_to_general(model, tok_pos_list) for tok_pos_list in res]
+        # direction = ""
+
+        # code for conversion between jiagu and pkuseg
+        # if model == "jiagu":
+            # if convert_from == "jiagu": # convert jiagu pos to pku
+            #     res = list(map(convert_pos_jiagupos_pku, res))
+            #     direction = "_model2pku"
+            # else: # convert gold standard to jiagu pos
+            #     standards_tok_pos = list(map(convert_pos_pku_jiagupos, standards_tok_pos))
+            #     direction = "_standard2jiagu"
+
+        # total_mismatch, average_mismatch, mismatch_list = pos_mismatch(standards_tok_pos, res)
+        total_mismatch, average_mismatch, mismatch_list = pos_mismatch(standards_tok_pos_converted, res_converted)
+        
+        print(model, total_mismatch, average_mismatch)
+        # file_name = "{}_pos_mismatch{}.csv".format(model, direction)
         
         
-#         mismatch_df = pd.DataFrame(mismatch_list, 
-#                 columns=["sent_idx", "tok", "standard", model]).to_csv(file_name)
+        # mismatch_df = pd.DataFrame(mismatch_list, 
+        #         columns=["sent_idx", "tok", "standard", model]).to_csv(file_name)
         
 
-#     # average percent mismatch when convert jiagupos to pku
-#     # hanlp 253 0.16073418054397515
-#     # jiagu 428 0.2694341499643043
+    # average percent mismatch when convert jiagupos to pku
+    # hanlp 253 0.16073418054397515
+    # jiagu 428 0.2694341499643043
 
-#     # average percent mismatch when convert gold standard pos in pku to jiagupos
-#     # hanlp 253 0.16073418054397515
-#     # jiagu 458 0.28878558958873424
+    # average percent mismatch when convert gold standard pos in pku to jiagupos
+    # hanlp 253 0.16073418054397515
+    # jiagu 458 0.28878558958873424
+
+    # average percent mismatch when convert all to general
+    # hanlp 212 0.13179229570280918
+    # jiagu 413 0.25978422875506824
 
 
 # if __name__ == '__main__':

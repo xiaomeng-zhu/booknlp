@@ -314,7 +314,16 @@ def convert_pos_pku_jiagupos(tok_poss):
     # takes a list of tok pos tuples
     return [(tok, map_pku_jiagupos[pos]) for tok, pos in tok_poss]
 
-def convert_to_general(model, pos_list):
+def convert_tokposlist_to_general(model, tok_poss):
+    # used in pos mismatch percentage calculation
+    # takes a list of tok pos tuples
+    if model == "hanlp":
+        return [(tok, map_hanlppos_general[pos]) for tok, pos in tok_poss]
+    elif model == "jiagu":
+        return [(tok, map_jiagupos_general[pos]) for tok, pos in tok_poss]
+
+def convert_poslist_to_general(model, pos_list):
+    # used in min_edit_distance calculation
     # takes a list of pos tags
     if model == "jieba":
         return [map_jiebapos_general[pos] for pos in pos_list]
