@@ -95,7 +95,7 @@ map_jiebapos_general = {
     "nr":"nr",
     "ns":"ns",
     "nt":"nt",
-    "nw":"n",
+    "nw":"nz",
     "nz":"nz",
     "p":"p",
     "q":"q",
@@ -126,7 +126,7 @@ map_lacpos_general = {
     "PER":"nr",
     "LOC":"ns",
     "ORG":"nt",
-    "nw":"n",
+    "nw":"nz",
     "nz":"nz",
     "p":"p",
     "q":"q",
@@ -139,7 +139,7 @@ map_lacpos_general = {
     "vn":"n", # need to double check
     "w":"w",
     "xc":"x",
-    "": "x", # ('先前──', '')
+    "": "???", # ('先前──', '')
 }
 
 map_hanlppos_general = {
@@ -169,7 +169,7 @@ map_hanlppos_general = {
     "nt":"nt",
     "nx":"n",
     "nz":"n",
-    "o":"o",
+    "o":"x",
     "p":"p",
     "q":"q",
     "Rg":"r",
@@ -216,7 +216,7 @@ map_jiagupos_general = {
     "c":"c",
     "u":"u",
     "e":"x",
-    "o":"o",
+    "o":"x",
     "i":"i",
     "j":"j",
     "h":"h",
@@ -246,7 +246,7 @@ map_thulacpos_general = {
     "ns":"ns",
     "ni":"nt",
     "nz":"nz",
-    "o":"o",
+    "o":"x",
     "p":"p",
     "q":"q",
     "r":"r",
@@ -257,7 +257,7 @@ map_thulacpos_general = {
     "w":"w",
     "x":"x",
     "y":"x",
-    "id":"NA", # '開談判_id'
+    "id":"i",
 }
 
 map_pkusegpos_general = {
@@ -286,7 +286,7 @@ map_pkusegpos_general = {
     "nt":"nt",
     "nx":"n",
     "nz":"nz",
-    "o":"o",
+    "o":"x",
     "p":"p",
     "q":"q",
     "Rg":"r",
