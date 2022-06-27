@@ -1,11 +1,8 @@
-from this import s
 import pandas as pd
 from min_edit_distance import min_edit_distance
 from pos_match import parse_tok_pos
 from pos_match import pos_mismatch
 from pos_map import * # import dicts that convert pos tag sets
-
-# convert_from = "jiagu"
 
 """ input: list of sentences to tokenize
 output: list of lists of token strings """
@@ -223,7 +220,7 @@ def output_sents_txt(file_name, tokenized, model, score):
         f.write("\n")
 
 def calculate_score(sentences, standards, model):
-    # calculate the average minimum edit distance for all sentences
+    # calculate the average minimum edit distance for all sentences for tokenization comparison
 
     assert len(sentences) == len(standards)
     import opencc
@@ -244,7 +241,7 @@ def calculate_score(sentences, standards, model):
         total += score
     return tokenized_strings, total
     
-# for models that do not support customized tokens
+# ================ for models that do not support customized tokens ================
 if __name__ == '__main__':
     model_list = [
         "jieba",
@@ -258,20 +255,21 @@ if __name__ == '__main__':
         "pkuseg",
     ]
 
-    # original sentences as untokenized strings
+    # read original sentences as untokenized strings
     with open("annotation_50.txt", "r") as f:
         sentences = f.readlines()
     sentences = [sent.rstrip('\n') for sent in sentences]
 
-    # gold standard tokenized result
+    # read gold standard tokenized result
     standards_tok = pd.read_csv("annotation/standard_tokenization.csv")
     standards_tok = list(standards_tok.iloc[:, 1]) # list of strings with tokens separated by / 
     standards_tok = [sent_string.split("/") for sent_string in standards_tok]
 
-    # gold standard tok and pos result
+    # read gold standard tok and pos result
     standards_tok_pos = pd.read_csv("annotation/standard_pos.csv")
     standards_tok_pos = list(standards_tok_pos.iloc[:, 1]) # list of strings
 
+    # get all gold standard part of speech tags
     standards_pos = [] # list of lists of pos
     for sent in standards_tok_pos:
         pos_list = []
@@ -283,6 +281,9 @@ if __name__ == '__main__':
 
     for model in model_list:
         res = process_untokenized_sents(sentences, model) # list of lists of tok pos tuple
+        res_df = pd.DataFrame(res, index=range(1,51))
+        res_df.to_csv("model_results/{}_pos_all.csv".format(model))
+
         res_poss = []
         for tok_pos_list in res:
             pos_list = []
@@ -290,6 +291,9 @@ if __name__ == '__main__':
                 pos_list.append(pos)
             res_poss.append(pos_list)
         res_poss = [convert_to_general(model, pos_list) for pos_list in res_poss]
+
+        res_poss_df = pd.DataFrame(res_poss, index=range(1,51))
+        res_poss_df.to_csv("model_results/{}_pos_all_converted.csv".format(model))
         # print(res_poss)
         
         total_score = 0
@@ -306,7 +310,7 @@ if __name__ == '__main__':
     # thulac 11.6
     # pkuseg 11.36
 
-        
+# ================ for models that support customized tokens ================
 # if __name__ == '__main__':
 #     model_list = [
 #         # "jieba",
