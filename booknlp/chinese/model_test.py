@@ -169,25 +169,20 @@ def ltp_process_all(sentences):
 
 """ inputs: list of all sentence strings to tokenize; which tok model to use 
     output: list of lists of token strings, depending on model"""
+
 def tok_all_sents(sentences, model):
     if model == "jieba":
-        return jieba_tok_all(sentences)
+        return jieba_process_all(sentences, True, False)
     elif model == "lac":
-        return lac_tok_all(sentences)
-    elif model == "hanlp":
-        return hanlp_tok_all(sentences) # NOTE: this results in score of 582, much higher than before
-    elif model == "stanza":
-        return stanza_tok_all(sentences)
-    elif model == "jiagu":
-        return jiagu_tok_all(sentences)
+        return lac_process_all(sentences, True, False)
     elif model == "thulac":
-        return thulac_tok_all(sentences)
+        return thulac_process_all(sentences, True, False)
     elif model == "pkuseg":
-        return pkuseg_tok_all(sentences)
-    elif model == "ltp":
-        return ltp_tok_all(sentences)
-    else:
-        return None
+        return pkuseg_process_all(sentences, True, False)
+    elif model == "hanlp":
+        return hanlp_process_all(sentences, True, False, []) # NOTE: this results in score of 582, much higher than before
+    elif model == "jiagu":
+        return jiagu_process_all(sentences, True, False, [])
 
 def process_untokenized_sents(sentences, model):
     if model == "jieba":
@@ -231,7 +226,7 @@ def calculate_score(sentences, standards, model):
 
     total = 0
 
-    tokenized = tokenize_all_sents(sentences, model)
+    tokenized = tok_all_sents(sentences, model)
     tokenized_strings = []
 
     for i in range(len(sentences)):
@@ -240,3 +235,77 @@ def calculate_score(sentences, standards, model):
         score = min_edit_distance(tok_str, standards[i])
         total += score
     return tokenized_strings, total
+
+# def filter_ner(tok_pos_list):
+#     res = []
+#     for sent in tok_pos_list:
+#         ner_in_sent = []
+#         for tok,pos in sent:
+#             if pos in ["PER", "ORG", "LOC", "np", "ns", "ni"]:
+#                 ner_in_sent.append((tok,pos))
+
+#         res.append(ner_in_sent)
+#     return res
+
+# def lac_ner(sentences):
+#     tok_pos_list = lac_process_all(sentences, True, True, []) # list of lists of tuples
+#     return filter_ner(tok_pos_list)    
+
+# def thulac_ner(sentences):
+#     pass
+
+# def jiagu_ner(sentences):
+#     pass
+
+pku_ner_map = {
+    "ns": "LOC",
+    "nt": "ORG",
+    "nr": "PER"
+}
+
+def hanlp_ner(sentences):
+    # assume sentences are all simplified chinese
+    
+    from hanlp_restful import HanLPClient
+
+    HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
+    
+    res_sent = []
+    tok_to_char_list = [] 
+    for idx, sentence in enumerate(sentences):
+        count = 0
+        char_idx_list = [] 
+        # should have the same length as the toks list, 
+        # each idx is the starting idx of the first char of the token in the sentence
+
+        ners_dict = HanLP(sentence, tasks='ner*')
+        ners_list = ners_dict["ner/pku"][0]
+        # print(ners_list)
+        ners_tok = ners_dict["tok/fine"][0]
+
+        for tok in ners_tok:
+            char_idx_list.append(count)
+            count += len(tok)
+        # print(char_idx_list)
+
+        for ner in ners_list:
+            string = ner[0]
+            type = pku_ner_map[ner[1]]
+            start_idx = char_idx_list[ner[2]]
+            end_idx = start_idx + len(string) - 1
+
+            # sent idx (indexing from 0), start_idx of tok, end_idx of tok, type, string
+            res_sent.append([idx+1, start_idx, end_idx, type, string])
+
+    return res_sent
+
+
+# def process_ner(model, sentences):
+#     if model == "lac":
+#         return lac_ner(sentences)
+#     elif model == "thulac":
+#         return thulac_ner(sentences)
+#     elif model == "jiagu":
+#         return jiagu_ner(sentences)
+#     elif model == "hanlp":
+#         return hanlp_ner(sentences)

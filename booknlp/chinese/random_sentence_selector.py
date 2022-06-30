@@ -19,15 +19,19 @@ def random_select(num, sents, min_len):
     return sample
 
 if __name__ == '__main__':
-    book_name = "zhaohuaxishi"
-    file_name = "examples/lu_xun/"+book_name+".txt"
-    doc = read_from_txt(file_name)
-    clean_doc = strip_header_footer(doc)
-    sents = split_by_sentence(clean_doc)
+    # book_name_list = ["lu_xun/ah_q", "lu_xun/zhaohuaxishi", "lu_xun/kuangrenriji_with_classical", "linglijiguang", "fengshou", 
+    # "with_poetry/hongloumeng", "with_poetry/jinpingmei", "with_poetry/xiyouji","with_poetry/huliyuanquanzhuan", "with_poetry/niehaihua"]
+    
+    book_name_list = ["lu_xun/kuangrenriji_with_classical"]
+    for book_name in book_name_list:
+        file_name = "examples/"+book_name+".txt"
+        doc = read_from_txt(file_name)
+        clean_doc = strip_header_footer(doc)
+        sents = split_by_sentence(clean_doc)
 
-    selected = random_select(5, sents, 30)
-    print(selected)
-    with open("annotation_50.txt", "a") as writer:
-        writer.write("\n朝花夕拾追加：\n")
-        for sent in selected:
-            writer.write(sent+"\n")
+        selected = random_select(5, sents, 30)
+        # print(selected)
+        # print(selected)
+        with open("annotation_50_batch2.txt", "a") as writer:
+            for sent in selected:
+                writer.write(sent+"\n")
