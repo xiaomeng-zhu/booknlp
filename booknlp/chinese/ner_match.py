@@ -11,13 +11,12 @@ def ner_match_percentage(ners1, ners2):
             mismatch.append(ner)
     return match_count/len(ners2), mismatch
 
-
 def ner_metrics(ners_model, ners_std):
     tp = 0
     fp = 0
     tn = 0 # always 0
     fn = 0
-    tp_fp = len(ners_model)
+    # tp_fp = len(ners_model)
     for ner in ners_model:
         if ner in ners_std:
             tp += 1
@@ -30,9 +29,7 @@ def ner_metrics(ners_model, ners_std):
     recall = (tp)/(tp+fn)
     f1 = 2 * precision * recall / (precision + recall)
     return precision, recall, f1
-
     
-
 def ner_df_to_list(ner_df):
     # input is a pandas data frame
     ner_list = list(ner_df.itertuples(index=False, name=None))
@@ -61,6 +58,7 @@ if __name__ == "__main__":
     # print("In Miranda's NER set but not in Kiara's: {}".format(inm_notink))
     # print(perc2)
     # print("In Kiara's NER set but not in Miranda's: {}".format(ink_notinm))
+
     precision1, recall1, f1_1 = ner_metrics(m_list, k_list)
     precision2, recall2, f1_2 = ner_metrics(k_list, m_list)
     print(precision1, recall1, f1_1) # 0.8840579710144928 0.8714285714285714 0.8776978417266188

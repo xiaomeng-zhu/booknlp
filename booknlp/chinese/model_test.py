@@ -236,32 +236,41 @@ def calculate_score(sentences, standards, model):
         total += score
     return tokenized_strings, total
 
-# def filter_ner(tok_pos_list):
-#     res = []
-#     for sent in tok_pos_list:
-#         ner_in_sent = []
-#         for tok,pos in sent:
-#             if pos in ["PER", "ORG", "LOC", "np", "ns", "ni"]:
-#                 ner_in_sent.append((tok,pos))
-
-#         res.append(ner_in_sent)
-#     return res
-
-# def lac_ner(sentences):
-#     tok_pos_list = lac_process_all(sentences, True, True, []) # list of lists of tuples
-#     return filter_ner(tok_pos_list)    
-
-# def thulac_ner(sentences):
-#     pass
-
-# def jiagu_ner(sentences):
-#     pass
-
-pku_ner_map = {
+ner_map = {
+    "PER": "PER",
+    "LOC": "LOC",
+    "ORG": "ORG",
+    "np": "PER",
+    "ni": "ORG",
     "ns": "LOC",
     "nt": "ORG",
     "nr": "PER"
 }
+
+def filter_and_convert_ner(tok_pos_list):
+    ners = []
+    for sent_idx, tok_poss in enumerate(tok_pos_list):
+        char_idx = 0
+        for tok, pos in tok_poss:
+            start_idx = char_idx
+            end_idx = char_idx + len(tok) - 1
+            if pos in ["PER", "ORG", "LOC", "np", "ns", "ni", "nt", "nr"]:
+                type = ner_map[pos]
+                ners.append((sent_idx+1, start_idx, end_idx, type, tok))
+            char_idx += len(tok)
+    return ners
+
+def lac_ner(sentences):
+    tok_pos_list = lac_process_all(sentences, True, True, []) # list of lists of tuples
+    return filter_and_convert_ner(tok_pos_list)
+
+def thulac_ner(sentences):
+    tok_pos_list = thulac_process_all(sentences, True, True, []) # list of lists of tuples
+    return filter_and_convert_ner(tok_pos_list)
+
+def jiagu_ner(sentences):
+    tok_pos_list = jiagu_process_all(sentences, True, True, []) # list of lists of tuples
+    return filter_and_convert_ner(tok_pos_list)
 
 def hanlp_ner(sentences):
     # assume sentences are all simplified chinese
@@ -290,14 +299,25 @@ def hanlp_ner(sentences):
 
         for ner in ners_list:
             string = ner[0]
-            type = pku_ner_map[ner[1]]
+            type = ner_map[ner[1]]
             start_idx = char_idx_list[ner[2]]
             end_idx = start_idx + len(string) - 1
 
             # sent idx (indexing from 0), start_idx of tok, end_idx of tok, type, string
             res_sent.append([idx+1, start_idx, end_idx, type, string])
 
-    return res_sent
+    return [tuple(ner) for ner in res_sent]
+
+def ner_process_all(model, sentences):
+    if model == "lac":
+        return lac_ner(sentences)
+    elif model == "thulac":
+        return thulac_ner(sentences)
+    elif model == "jiagu":
+        return jiagu_ner(sentences)
+    elif model == "hanlp":
+        return hanlp_ner(sentences)
+
 
 
 # def process_ner(model, sentences):
