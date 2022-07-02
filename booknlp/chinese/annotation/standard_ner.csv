@@ -14,7 +14,6 @@ sent,start_idx,end_idx,type,string
 9,2,4,LOC,城隍廟
 9,6,8,LOC,東嶽廟
 9,25,27,LOC,陰司間
-16,3,5,PER,以赛亚
 16,23,23,LOC,华
 17,0,1,PER,金笔
 17,6,7,PER,金地
@@ -56,7 +55,6 @@ sent,start_idx,end_idx,type,string
 44,11,11,PER,胡
 45,2,3,PER,周生
 45,6,7,PER,玉狐
-47,3,5,LOC,薩克森
 47,9,11,LOC,地中海
 47,15,17,LOC,意大利
 48,0,1,PER,伯黻
