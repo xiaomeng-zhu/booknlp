@@ -24,11 +24,11 @@ sentence = """黛玉一一的都答應著．只見一個丫鬟來回：“老太
 引鳳，李二人去了．賈母因問黛玉念何書．黛玉道：“只剛念了《四書》。
 ”黛玉又問姊妹們讀何書．賈母道：“讀的是什么書，不過是認得兩個字，
 不是睜眼的瞎子罷了！”"""
-sentence = "《中國革命記》第三冊（一九一一年上海自由社編印）記載﹕辛亥九月十四日杭州府為民軍佔領﹐紹興府即日宣佈光復"
+sentence = "观音菩萨真的是一个好人。"
 # sentence = "我老孫頗有降龍伏虎的手段，翻江攪海的神通"
 # sentence = "說罷，站在一旁，用杏眼偷看周公子和胡小姐。"
 # sentence = "玉面參透其意，故意為難多會，方說道"
-sentence = converter.convert(sentence)
+# sentence = converter.convert(sentence)
 print(sentence)
 
 HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 

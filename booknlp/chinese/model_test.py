@@ -237,6 +237,11 @@ def calculate_score(sentences, standards, model):
     return tokenized_strings, total
 
 ner_map = {
+    "PERSON": "PER",
+    "LOCATION": "LOC",
+    "ORGANIZATION": "ORG",
+    "GPE": "LOC",
+    "NORP": "ORG",
     "PER": "PER",
     "LOC": "LOC",
     "ORG": "ORG",
@@ -254,7 +259,7 @@ def filter_and_convert_ner(tok_pos_list):
         for tok, pos in tok_poss:
             start_idx = char_idx
             end_idx = char_idx + len(tok) - 1
-            if pos in ["PER", "ORG", "LOC", "np", "ns", "ni", "nt", "nr"]:
+            if pos in ner_map.keys():
                 type = ner_map[pos]
                 ners.append((sent_idx+1, start_idx, end_idx, type, tok))
             char_idx += len(tok)
@@ -272,7 +277,7 @@ def jiagu_ner(sentences):
     tok_pos_list = jiagu_process_all(sentences, True, True, []) # list of lists of tuples
     return filter_and_convert_ner(tok_pos_list)
 
-def hanlp_ner(sentences):
+def hanlp_ner(sentences, ner_set):
     # assume sentences are all simplified chinese
     
     from hanlp_restful import HanLPClient
@@ -288,7 +293,7 @@ def hanlp_ner(sentences):
         # each idx is the starting idx of the first char of the token in the sentence
 
         ners_dict = HanLP(sentence, tasks='ner*')
-        ners_list = ners_dict["ner/pku"][0]
+        ners_list = ners_dict[ner_set][0]
         # print(ners_list)
         ners_tok = ners_dict["tok/fine"][0]
 
@@ -298,13 +303,14 @@ def hanlp_ner(sentences):
         # print(char_idx_list)
 
         for ner in ners_list:
-            string = ner[0]
-            type = ner_map[ner[1]]
-            start_idx = char_idx_list[ner[2]]
-            end_idx = start_idx + len(string) - 1
+            if ner[1] in ner_map.keys():
+                string = ner[0]
+                type = ner_map[ner[1]]
+                start_idx = char_idx_list[ner[2]]
+                end_idx = start_idx + len(string) - 1
 
             # sent idx (indexing from 0), start_idx of tok, end_idx of tok, type, string
-            res_sent.append([idx+1, start_idx, end_idx, type, string])
+                res_sent.append([idx+1, start_idx, end_idx, type, string])
 
     return [tuple(ner) for ner in res_sent]
 
@@ -317,7 +323,6 @@ def ner_process_all(model, sentences):
         return jiagu_ner(sentences)
     elif model == "hanlp":
         return hanlp_ner(sentences)
-
 
 
 # def process_ner(model, sentences):

@@ -18,11 +18,13 @@ with open("annotation_50_batch2.txt", "r") as f:
     batch_2 = [sent.rstrip('\n') for sent in batch_2]
 
 batch_all = batch_1 + batch_2
+
+# convert all sentences to simplified
 converter = opencc.OpenCC('t2s.json')
 batch_all = [converter.convert(sentence) for sentence in batch_all]
 
 # ner_standards = pd.read_csv("annotation/ner_standard_final.csv")
-ner_standards = pd.read_csv("annotation/standard_ner_v2.csv")
+ner_standards = pd.read_csv("annotation/standard_ner.csv")
 standards_list = ner_df_to_list(ner_standards)
 standards_list_simplified = [(sent_idx, start_idx, end_idx, ner_type, converter.convert(tok))for sent_idx, start_idx, end_idx, ner_type, tok in standards_list]
 # print(standards_list_simplified[:10])
@@ -31,14 +33,24 @@ standards_list_simplified = [(sent_idx, start_idx, end_idx, ner_type, converter.
 # perc2, instd_notinhan = ner_match_percentage(standards_list, hanlp_ners_tup_list)
 # print(perc1, perc2)
 
-for model in model_list:
-    model_res = ner_process_all(model, batch_all)
+ner_sets = [
+    "ner/msra",
+    "ner/pku",
+    "ner/ontonotes"
+]
+for ner_set in ner_sets:
+    hanlp_res = hanlp_ner(batch_all, ner_set)
+    hanlp_precision, hanlp_recall, hanlp_f1 = ner_metrics(hanlp_res, standards_list_simplified)
+    print(ner_set, hanlp_precision, hanlp_recall, hanlp_f1)
 
-    model_res_df = pd.DataFrame(model_res, columns=["sent", "start_idx", "end_idx", "type", "string"])
-    model_res_df.to_csv("model_results/{}_ner.csv".format(model))
+# for model in model_list:
+#     model_res = ner_process_all(model, batch_all)
 
-    model_precision, model_recall, model_f1 = ner_metrics(model_res, standards_list_simplified)
-    print(model, model_precision, model_recall, model_f1)
+#     model_res_df = pd.DataFrame(model_res, columns=["sent", "start_idx", "end_idx", "type", "string"])
+#     model_res_df.to_csv("model_results/{}_ner.csv".format(model))
+
+#     model_precision, model_recall, model_f1 = ner_metrics(model_res, standards_list_simplified)
+#     print(model, model_precision, model_recall, model_f1)
 
 # Result on Jun 29
 # hanlp 0.7876106194690266 0.644927536231884 0.7091633466135459
@@ -58,3 +70,10 @@ for model in model_list:
 # lac 0.6829268292682927 0.6176470588235294 0.6486486486486487
 # thulac 0.6067415730337079 0.39705882352941174 0.48
 # jiagu 0.22666666666666666 0.125 0.1611374407582938
+
+# Comparison of NER sets version 1
+
+# Comparison of NER sets version 2
+# ner/msra 0.8429752066115702 0.75 0.7937743190661479
+# ner/pku 0.8584070796460177 0.7132352941176471 0.7791164658634538
+# ner/ontonotes 0.8807339449541285 0.7058823529411765 0.7836734693877551
