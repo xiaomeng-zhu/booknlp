@@ -252,6 +252,12 @@ ner_map = {
     "nr": "PER"
 }
 
+ner_sets = [
+    "ner/msra",
+    "ner/pku",
+    "ner/ontonotes"
+]
+
 def filter_and_convert_ner(tok_pos_list):
     ners = []
     for sent_idx, tok_poss in enumerate(tok_pos_list):
@@ -322,7 +328,7 @@ def ner_process_all(model, sentences):
     elif model == "jiagu":
         return jiagu_ner(sentences)
     elif model == "hanlp":
-        return hanlp_ner(sentences)
+        return hanlp_ner(sentences, ner_sets)
 
 
 # def process_ner(model, sentences):

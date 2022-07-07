@@ -25,6 +25,15 @@ sentence = """黛玉一一的都答應著．只見一個丫鬟來回：“老太
 ”黛玉又問姊妹們讀何書．賈母道：“讀的是什么書，不過是認得兩個字，
 不是睜眼的瞎子罷了！”"""
 sentence = "观音菩萨真的是一个好人。"
+sentence = """
+云普叔坐在“曹氏家祠”的大门口，还穿著过冬天的那件破旧棉袍；身子微微颤动 ，像是耐不住这袭人的寒气。他抬头望了一望天，嘴边不知道念了几句什麽话，又低了 下去。鬍鬚上倒悬著一线一线的，迎风飘动，刚刚用手抹去，随即又流出了几线来。
+
+“难道再要和去年一样吗？我的天哪！”
+
+他低声地说了这麽一句，便回头反望著坐在戏台下的妻子，很迟疑地说著：
+
+“秋儿的娘呀！‘惊蛰一过，棉裤脱落！’现在快清明了，还脱不下袍儿。这，莫 非是又要和去年一样吗？”
+"""
 # sentence = "我老孫頗有降龍伏虎的手段，翻江攪海的神通"
 # sentence = "說罷，站在一旁，用杏眼偷看周公子和胡小姐。"
 # sentence = "玉面參透其意，故意為難多會，方說道"
@@ -37,8 +46,8 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # hlp = HanLP.tokenize(sentence)
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
-# HanLP.coreference_resolution(sentence).pretty_print()
-print(HanLP(sentence, tasks='ner*'))
+print(HanLP.coreference_resolution(sentence))
+# print(HanLP(sentence, tasks='ner*'))
 
 """
 [

@@ -33,24 +33,20 @@ standards_list_simplified = [(sent_idx, start_idx, end_idx, ner_type, converter.
 # perc2, instd_notinhan = ner_match_percentage(standards_list, hanlp_ners_tup_list)
 # print(perc1, perc2)
 
-ner_sets = [
-    "ner/msra",
-    "ner/pku",
-    "ner/ontonotes"
-]
+# compare different NER tagsets within hanlp
 for ner_set in ner_sets:
     hanlp_res = hanlp_ner(batch_all, ner_set)
     hanlp_precision, hanlp_recall, hanlp_f1 = ner_metrics(hanlp_res, standards_list_simplified)
     print(ner_set, hanlp_precision, hanlp_recall, hanlp_f1)
 
-# for model in model_list:
-#     model_res = ner_process_all(model, batch_all)
+for model in model_list:
+    model_res = ner_process_all(model, batch_all)
 
-#     model_res_df = pd.DataFrame(model_res, columns=["sent", "start_idx", "end_idx", "type", "string"])
-#     model_res_df.to_csv("model_results/{}_ner.csv".format(model))
+    model_res_df = pd.DataFrame(model_res, columns=["sent", "start_idx", "end_idx", "type", "string"])
+    model_res_df.to_csv("model_results/{}_ner.csv".format(model))
 
-#     model_precision, model_recall, model_f1 = ner_metrics(model_res, standards_list_simplified)
-#     print(model, model_precision, model_recall, model_f1)
+    model_precision, model_recall, model_f1 = ner_metrics(model_res, standards_list_simplified)
+    print(model, model_precision, model_recall, model_f1)
 
 # Result on Jun 29
 # hanlp 0.7876106194690266 0.644927536231884 0.7091633466135459
@@ -72,6 +68,9 @@ for ner_set in ner_sets:
 # jiagu 0.22666666666666666 0.125 0.1611374407582938
 
 # Comparison of NER sets version 1
+# ner/msra 0.768595041322314 0.6838235294117647 0.7237354085603113
+# ner/pku 0.7787610619469026 0.6470588235294118 0.7068273092369478
+# ner/ontonotes 0.7981651376146789 0.6397058823529411 0.710204081632653
 
 # Comparison of NER sets version 2
 # ner/msra 0.8429752066115702 0.75 0.7937743190661479
