@@ -46,8 +46,8 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # hlp = HanLP.tokenize(sentence)
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
-print(HanLP.coreference_resolution(sentence))
-# print(HanLP(sentence, tasks='ner*'))
+# print(HanLP.coreference_resolution(sentence))
+print(HanLP(sentence, tasks='ner*'))
 
 """
 [

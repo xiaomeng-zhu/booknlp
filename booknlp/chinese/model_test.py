@@ -330,6 +330,45 @@ def ner_process_all(model, sentences):
     elif model == "hanlp":
         return hanlp_ner(sentences, ner_sets)
 
+def hanlp_coref(section, offset, output_min_idx):
+    from hanlp_restful import HanLPClient
+
+    HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
+    corefs = HanLP.coreference_resolution(section)
+    
+    coref_clusters = corefs["clusters"]
+    #print(coref_clusters)
+    coref_tokens = corefs["tokens"]
+
+    char_idx = 0
+    char_idx_list = [] # list of the starting character index of each token, should be the same length as coref_tokens
+
+    for tok in coref_tokens:
+        char_idx_list.append(char_idx)
+        char_idx += len(tok)
+
+    output_dict = {}
+    output_dict["type"] = "clusters"
+    output_dict_cluster = {}
+    
+    cluster_idx = 0
+    for clust_list in coref_clusters:
+        output_dict_cluster[cluster_idx] = []
+        for string, start_tok_idx, end_tok_idx in tuple(clust_list):
+            start_char_idx = str(char_idx_list[start_tok_idx] + offset)
+            end_char_idx = str(char_idx_list[end_tok_idx] - 1 + offset)
+            if int(start_char_idx) >= output_min_idx:
+                output_dict_cluster[cluster_idx].append(start_char_idx + "-" + end_char_idx)
+        
+        if output_dict_cluster[cluster_idx] == []:
+            output_dict_cluster.pop(cluster_idx)
+        
+        cluster_idx += 1
+        
+ 
+    output_dict["clusters"] = output_dict_cluster
+
+    return output_dict
 
 # def process_ner(model, sentences):
 #     if model == "lac":
