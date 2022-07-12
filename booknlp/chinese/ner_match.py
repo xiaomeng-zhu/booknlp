@@ -65,11 +65,11 @@ if __name__ == "__main__":
     print(precision2, recall2, f1_2) # 0.8714285714285714 0.8840579710144928 0.8776978417266188
 
     # match indices in the annotated file with the corresponding characters in the sentences
-    with open("annotation_50.txt", "r") as f:
+    with open("annotation/annotation_50.txt", "r") as f:
         batch_1 = f.readlines()
         batch_1 = [sent.rstrip('\n') for sent in batch_1]
 
-    with open("annotation_50_batch2.txt", "r") as f:
+    with open("annotation/annotation_50_batch2.txt", "r") as f:
         batch_2 = f.readlines()
         batch_2 = [sent.rstrip('\n') for sent in batch_2]
 

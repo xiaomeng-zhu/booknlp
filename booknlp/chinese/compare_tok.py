@@ -12,7 +12,7 @@ model_list = [
     "pkuseg",
 ]
 
-with open("annotation_50.txt", "r") as f:
+with open("annotation/annotation_50.txt", "r") as f:
     sentences = f.readlines()
 sentences = [sent.rstrip('\n') for sent in sentences]
 

@@ -14,7 +14,7 @@ model_list = [
 
 converter = opencc.OpenCC('t2s.json')
 # read original sentences as untokenized strings
-with open("annotation_50.txt", "r") as f:
+with open("annotation/annotation_50.txt", "r") as f:
     sentences = f.readlines()
 sentences = [sent.rstrip('\n') for sent in sentences]
 

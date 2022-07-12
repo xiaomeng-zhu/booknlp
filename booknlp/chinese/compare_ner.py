@@ -9,11 +9,11 @@ model_list = [
     "jiagu",
 ]
 
-with open("annotation_50.txt", "r") as f:
+with open("annotation/annotation_50.txt", "r") as f:
     batch_1 = f.readlines()
     batch_1 = [sent.rstrip('\n') for sent in batch_1]
 
-with open("annotation_50_batch2.txt", "r") as f:
+with open("annotation/annotation_50_batch2.txt", "r") as f:
     batch_2 = f.readlines()
     batch_2 = [sent.rstrip('\n') for sent in batch_2]
 

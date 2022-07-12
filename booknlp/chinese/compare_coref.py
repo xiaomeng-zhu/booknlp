@@ -2,8 +2,8 @@ import pandas as pd
 import json
 import opencc
 import os
-from coref_match import csv_to_json
 from model_test import hanlp_coref
+from coref_match import csv_to_json
 
 def compare(df1, df2):
     df1 = df1[["start_idx", "end_idx"]]
