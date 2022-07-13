@@ -4,7 +4,7 @@ model_list = [
     "jieba",
     "lac",
     "hanlp",
-    "stanza", # tokenizer package version conflict
+    # "stanza", # tokenizer package version conflict
     # "jiayan", # model too large to be committed
     "jiagu",
     # "ltp", # tokenizer package version conflict
@@ -27,12 +27,12 @@ all_model_sents = []
 for model in model_list:
     tokenized, score = calculate_score(sentences, standards, model)
     all_model_sents.append(tokenized) # nested list of model and sentence
-    output_sents_txt("model_results_50.txt", tokenized, model, score)
+    output_sents_txt("model_results/model_results_50.txt", tokenized, model, score)
     print(model, score)
 
 # output csv file for all tokenized results of all models
-df = pd.DataFrame(all_model_sents, index=model_list, columns=range(1,51))
-df.to_csv("model_results/model_results_50.csv")
+# df = pd.DataFrame(all_model_sents, index=model_list, columns=range(1,51))
+# df.to_csv("model_results/model_results_50.csv")
     
 # for sentence in sentences:
 #     model_res = [] # list of results for each model

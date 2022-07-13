@@ -3,11 +3,13 @@ import opencc
 import time
 converter = opencc.OpenCC('t2s.json')
 
-with open("examples/with_poetry/hongloumeng.txt", "r") as f:
-  sentence = f.read()
+# with open("examples/with_poetry/hongloumeng.txt", "r") as f:
+#   sentence = f.read()
+
+sentence = "嗨你好我是上帝。"
 sentence = converter.convert(sentence)
 # print(sentence)
-time0 = time.perf_counter()
+
 HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
 # if auth is None then it is connected to the server anonymously
 # language = 'zh' for chinese, language = 'mul' for multi languages
@@ -15,10 +17,9 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
 # print(HanLP.coreference_resolution(sentence))
-all_toks = HanLP.tokenize(sentence)
-time1 = time.perf_counter()
-print(time1-time0)
-print(all_toks[:200])
+all_toks_pos_dict = HanLP.tokenize(sentence, coarse=True)
+
+print(all_toks_pos_dict)
 
 
 """

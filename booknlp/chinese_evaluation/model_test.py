@@ -211,7 +211,7 @@ def output_sents_txt(file_name, tokenized, model, score):
     with open(file_name, "a") as f:
         f.write(model+"\n")
         for sent in tokenized:
-            f.write("/".join(sent)+"\n")
+            f.write(sent+"\n")
         f.write("The {} tokenizer results in {} number of edits\n".format(model, score))
         f.write("\n")
 
