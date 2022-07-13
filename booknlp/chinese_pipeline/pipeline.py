@@ -1,5 +1,7 @@
 import re
 import time
+import numpy as np
+import pandas as pd
 from hanlp_restful import HanLPClient
 import poetry_detector
 
@@ -18,7 +20,7 @@ def strip_header_footer(doc):
     try:
         header_idx = re.search("START OF (THE|THIS) PROJECT GUTENBERG EBOOK", doc).end() # index of the last character in the header identification string
     except AttributeError:
-        print("No header found.")
+        print("No Project Gutenberg header found.")
 
     # res = doc
     # if header_idx != -1: # if there is a header
@@ -27,7 +29,7 @@ def strip_header_footer(doc):
     try:
         footer_idx = re.search("End of the Project Gutenberg EBook of", res).start() # index of the first character in the footer identification string
     except AttributeError:
-        print("No footer found.")
+        print("No Project Gutenberg footer found.")
     
     res = res[:footer_idx]
     res = re.sub("\n", "", res)
@@ -82,12 +84,44 @@ def preprocess(text_file, text_title):
 
     return sections
 
-def tok(client, section):
-    all_toks = client.tokenize(section)
-    return all_toks
+def tokenize_and_pos(client, sections, text_title):
+    all_toks = []
+    all_poss = []
+    all_toks_indices = []
+    all_sents_indices = []
+    sent_offset = 0
+    token_offset = 0
+    for section in sections:
+        toks_pos_dict = client(section, tasks='pos/pku')
+        toks = toks_pos_dict["tok/fine"] # list of lists
+        
+        tok_len_list = [len(tok_list) for tok_list in toks]
+        num_toks = sum(tok_len_list)
+        num_sents = len(toks)
 
-def pos():
-    pass
+        toks_indices = [idx + token_offset for idx in list(range(num_toks))]
+        sents_indices = [[idx + sent_offset ]*length for idx, length in enumerate(tok_len_list)]
+        
+        poss = toks_pos_dict["pos/pku"]
+        
+        all_toks += toks
+        all_poss += poss
+        all_toks_indices.append(toks_indices)
+        all_sents_indices += sents_indices
+
+        token_offset += num_toks # number of tokens in the section
+        sent_offset += num_sents # number of sentences in the section
+
+    toks_pos_df = pd.DataFrame()
+    toks_pos_df["sentence_id"] = list(np.concatenate(all_sents_indices).flat)
+    toks_pos_df["token_id"] = list(np.concatenate(all_toks_indices).flat)
+    tokens_flatted = list(np.concatenate(all_toks).flat)
+    toks_pos_df["token"] = tokens_flatted
+    toks_pos_df["POS_tag"] = list(np.concatenate(all_poss).flat)
+
+    toks_pos_df.to_csv("chinese_pipeline/outputs/{}_tokens.csv".format(text_title))
+    
+    return enumerate(tokens_flatted)
 
 def ner():
     pass
@@ -101,14 +135,10 @@ def process(text_file, text_title):
     HanLP = client_set_up()
     time0 = time.perf_counter()
 
-    tokens = []
-    for section in sections:
-        section_tok = tok(HanLP, section)
-        tokens.append(section_tok)
-
+    tokens = tokenize_and_pos(HanLP, sections, text_title)
     time1 = time.perf_counter()
     print(time1-time0)
-    
+
     return tokens
 
 

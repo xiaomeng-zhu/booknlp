@@ -17,7 +17,7 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
 # print(HanLP.coreference_resolution(sentence))
-all_toks_pos_dict = HanLP.tokenize(sentence, coarse=True)
+all_toks_pos_dict = HanLP(sentence, tasks="pos/pku")
 
 print(all_toks_pos_dict)
 
