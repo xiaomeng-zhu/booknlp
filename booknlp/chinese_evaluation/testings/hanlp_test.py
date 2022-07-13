@@ -1,45 +1,13 @@
 from hanlp_restful import HanLPClient
 import opencc
-# convert into simplified chinese
+import time
 converter = opencc.OpenCC('t2s.json')
 
-sentence = """黛玉一一的都答應著．只見一個丫鬟來回：“老太太那里傳晚飯了。”
-王夫人忙攜黛玉從后房門由后廊往西，出了角門，是一條南北寬夾道．南邊
-是倒座三間小小的抱廈廳，北邊立著一個粉油大影壁，后有一半大門，小小
-一所房室．王夫人笑指向黛玉道：“這是你鳳姐姐的屋子，回來你好往這里
-找他來，少什么東西，你只管和他說就是了。”這院門上也有四五個才總角
-的小廝，都垂手侍立．王夫人遂攜黛玉穿過一個東西穿堂，便是賈母的后院
-了．于是，進入后房門，已有多人在此伺候，見王夫人來了，方安設桌椅．
-賈珠之妻李氏捧飯，熙鳳安箸，王夫人進羹．賈母正面榻上獨坐，兩邊四張
-空椅，熙鳳忙拉了黛玉在左邊第一張椅上坐了，黛玉十分推讓．賈母笑道：
-“你舅母你嫂子們不在這里吃飯．你是客，原應如此坐的。”黛玉方告了座
-，坐了．賈母命王夫人坐了．迎春姊妹三個告了座方上來．迎春便坐右手第
-一，	探春左第二，惜春右第二．旁邊丫鬟執著拂塵，漱盂，巾帕．李，
-鳳二人立于案旁布讓．外間伺候之媳婦丫鬟雖多，卻連一聲咳嗽不聞．寂然飯
-，各有丫鬟用小茶盤捧上茶來．當日林如海教女以惜福養身，云飯后務待飯
-粒咽盡，過一時再吃茶，方不傷脾胃．今黛玉見了這里許多事情不合家中之
-式，不得不隨的，少不得一一改過來，因而接了茶．早見人又捧過漱盂來，
-黛玉也照樣漱了口．□手畢，又捧上茶來，這方是吃的茶．賈母便說：“你
-們去罷，讓我們自在說話儿。”王夫人听了，忙起身，又說了兩句閒話，方
-引鳳，李二人去了．賈母因問黛玉念何書．黛玉道：“只剛念了《四書》。
-”黛玉又問姊妹們讀何書．賈母道：“讀的是什么書，不過是認得兩個字，
-不是睜眼的瞎子罷了！”"""
-sentence = "观音菩萨真的是一个好人。"
-sentence = """
-云普叔坐在“曹氏家祠”的大门口，还穿著过冬天的那件破旧棉袍；身子微微颤动 ，像是耐不住这袭人的寒气。他抬头望了一望天，嘴边不知道念了几句什麽话，又低了 下去。鬍鬚上倒悬著一线一线的，迎风飘动，刚刚用手抹去，随即又流出了几线来。
-
-“难道再要和去年一样吗？我的天哪！”
-
-他低声地说了这麽一句，便回头反望著坐在戏台下的妻子，很迟疑地说著：
-
-“秋儿的娘呀！‘惊蛰一过，棉裤脱落！’现在快清明了，还脱不下袍儿。这，莫 非是又要和去年一样吗？”
-"""
-# sentence = "我老孫頗有降龍伏虎的手段，翻江攪海的神通"
-# sentence = "說罷，站在一旁，用杏眼偷看周公子和胡小姐。"
-# sentence = "玉面參透其意，故意為難多會，方說道"
-# sentence = converter.convert(sentence)
-print(sentence)
-
+with open("examples/with_poetry/hongloumeng.txt", "r") as f:
+  sentence = f.read()
+sentence = converter.convert(sentence)
+# print(sentence)
+time0 = time.perf_counter()
 HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
 # if auth is None then it is connected to the server anonymously
 # language = 'zh' for chinese, language = 'mul' for multi languages
@@ -47,7 +15,11 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
 # print(HanLP.coreference_resolution(sentence))
-print(HanLP(sentence, tasks='ner*'))
+all_toks = HanLP.tokenize(sentence)
+time1 = time.perf_counter()
+print(time1-time0)
+print(all_toks[:200])
+
 
 """
 [

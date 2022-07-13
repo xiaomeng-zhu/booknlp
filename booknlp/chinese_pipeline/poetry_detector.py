@@ -1,9 +1,8 @@
 import re
-
-def read_from_txt(file_name):
-    with open(file_name, 'r') as f:
-        doc = f.read() # as a string
-        return doc
+def text_file_to_string(file_path):
+    with open(file_path, "r") as f:
+        text_string = f.read()
+    return text_string
 
 def strip_header_footer(doc):
     header_idx = -1
@@ -18,7 +17,7 @@ def strip_header_footer(doc):
     res = doc[(header_idx+1):] # if header_idx == -1, there is no header, so res is doc; otherwise, res is the slice without header
 
     try:
-        footer_idx = re.search("END OF (THE|THIS) PROJECT GUTENBERG EBOOK", res).start() # index of the first character in the footer identification string
+        footer_idx = re.search("End of the Project Gutenberg EBook of", res).start() # index of the first character in the footer identification string
     except AttributeError:
         print("No footer found.")
     
@@ -26,7 +25,6 @@ def strip_header_footer(doc):
     res = re.sub("\n", "", res)
     res = re.sub(re.escape("*"), "", res) # for some reason, this doesn't work when escaped * is added to punctuation list
     return res
-    
 
 def split_by_punc(doc):
     quote_punc = ["「", "」", "“" ,"”", "\"", "『", "』", "`", "'"]
@@ -92,12 +90,20 @@ def identify_poetry(sents):
             end_idx = -1
     return poems
 
+def extract_and_output_poetry(doc, text_title):
+    splitted_list = split_by_punc(doc)
+    poems = identify_poetry(splitted_list)
+    poems = [poem for poem in poems if len(poem) % 2 == 0]
+    with open("chinese_pipeline/outputs/{}_poetry.txt".format(text_title), "w"):
+        for poem in poems:
+            writer.write(" ".join(poem))
+            writer.write("\n")
 
 
 if __name__ == '__main__':
     book_name = "zhaohuaxishi"
     file_name = "examples/with_poetry/"+book_name+".txt"
-    doc = read_from_txt(file_name)
+    doc = text_file_to_string(file_name)
     clean_doc = strip_header_footer(doc)
     splitted_list = split_by_punc(clean_doc)
     poems = identify_poetry(splitted_list)
