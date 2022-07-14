@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from hanlp_restful import HanLPClient
 import poetry_detector
+from ner_honorifics import *
 
 def client_set_up():
     HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
@@ -47,6 +48,10 @@ def split_text(text_string, max_length):
     section_start = 0
     section_end = max_length
 
+    if len(text_string) < max_length:
+        sections.append(text_string)
+        return sections
+
     while not finished:
         if len(text_string[section_start:]) <= (max_length / 2):
             # if what remains is less than half of max_length, append the string to the last section
@@ -85,12 +90,13 @@ def preprocess(text_file, text_title):
     return sections
 
 def tokenize_and_pos(client, sections, text_title):
-    all_toks = []
+    all_toks = [] # list of lists of token
     all_poss = []
     all_toks_indices = []
     all_sents_indices = []
     sent_offset = 0
     token_offset = 0
+
     for section in sections:
         toks_pos_dict = client(section, tasks='pos/pku')
         toks = toks_pos_dict["tok/fine"] # list of lists
@@ -100,7 +106,7 @@ def tokenize_and_pos(client, sections, text_title):
         num_sents = len(toks)
 
         toks_indices = [idx + token_offset for idx in list(range(num_toks))]
-        sents_indices = [[idx + sent_offset ]*length for idx, length in enumerate(tok_len_list)]
+        sents_indices = [[idx + sent_offset] * length for idx, length in enumerate(tok_len_list)]
         
         poss = toks_pos_dict["pos/pku"]
         
@@ -115,19 +121,39 @@ def tokenize_and_pos(client, sections, text_title):
     toks_pos_df = pd.DataFrame()
     toks_pos_df["sentence_id"] = list(np.concatenate(all_sents_indices).flat)
     toks_pos_df["token_id"] = list(np.concatenate(all_toks_indices).flat)
-    tokens_flatted = list(np.concatenate(all_toks).flat)
-    toks_pos_df["token"] = tokens_flatted
+    tokens_flattend = list(np.concatenate(all_toks).flat)
+    toks_pos_df["token"] = tokens_flattend
     toks_pos_df["POS_tag"] = list(np.concatenate(all_poss).flat)
 
     toks_pos_df.to_csv("chinese_pipeline/outputs/{}_tokens.csv".format(text_title))
-    
-    return enumerate(tokens_flatted)
 
-def ner():
-    pass
+    return all_toks
 
-def honorifics():
-    pass
+def produce_offset(all_tokens):
+    # input is a list of integers:
+    res = []
+    sum = 0
+    for toks in all_tokens:
+        res.append(sum)
+        sum += len(toks)
+    return res
+
+def ner(client, all_tokens, text_title):
+    ner_df = pd.DataFrame()
+    all_ners = client(tokens=all_tokens, tasks="ner/msra")["ner/msra"] # list of lists
+    offsets = produce_offset(all_tokens) # list is the same length as number of sentences
+    all_ners_converted = []
+
+    for sent_idx, sent_ners in enumerate(all_ners):
+        offset = offsets[sent_idx]
+        for ner in sent_ners:
+            ner_converted = ner_match_convert(ner, all_tokens[sent_idx], offset)
+            all_ners_converted.append(ner_converted)
+
+    ner_df = pd.DataFrame(all_ners_converted, columns=["text", "cat", "start_token", "end_token"])
+    ner_df.to_csv("chinese_pipeline/outputs/{}_entities.csv".format(text_title))
+
+    return all_ners_converted
 
 def process(text_file, text_title):
     sections = preprocess(text_file, text_title)
@@ -136,6 +162,10 @@ def process(text_file, text_title):
     time0 = time.perf_counter()
 
     tokens = tokenize_and_pos(HanLP, sections, text_title)
+    ners = ner(HanLP, tokens, "fengshou")
+    # TODO: 
+    # coref
+    # coref_cluster
     time1 = time.perf_counter()
     print(time1-time0)
 
@@ -144,7 +174,7 @@ def process(text_file, text_title):
 
 if __name__ == "__main__":
     # sections = preprocess("data/fengshou_excerpt.txt")
-    file_path = "chinese_evaluation/examples/fengshou.txt"
+    file_path = "chinese_evaluation/examples/fengshou_chapter1.txt"
     text_title = "fengshou"
     res = process(file_path, text_title)
 
