@@ -162,7 +162,7 @@ def process(text_file, text_title):
     time0 = time.perf_counter()
 
     tokens = tokenize_and_pos(HanLP, sections, text_title)
-    ners = ner(HanLP, tokens, "fengshou")
+    ners = ner(HanLP, tokens, text_title)
     # TODO: 
     # coref
     # coref_cluster

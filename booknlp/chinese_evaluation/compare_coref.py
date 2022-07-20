@@ -74,21 +74,21 @@ if __name__ == "__main__":
     # fs_k = pd.read_csv("annotation/kiara_coref_fs.csv")
     # hly_k = pd.read_csv("annotation/kiara_coref_hly.csv")
 
-    # fs_standards_csv = ["annotation/standard_coref_fs_4.csv", "annotation/standard_coref_fs_34.csv",
-    #                     "annotation/standard_coref_fs_234.csv", "annotation/standard_coref_fs_1234.csv"]
-    # for path in fs_standards_csv:
-    #     std = pd.read_csv(path)
-    #     std_json = csv_to_json(std)
-    #     with open(path[:-3] + "json", "w") as outfile:
-    #         json.dump(std_json, outfile)
+    fs_standards_csv = ["annotation/standard_coref_fs_4.csv", "annotation/standard_coref_fs_34.csv",
+                        "annotation/standard_coref_fs_234.csv", "annotation/standard_coref_fs_1234.csv"]
+    for path in fs_standards_csv:
+        std = pd.read_csv(path)
+        std_json = csv_to_json(std)
+        with open(path[:-3] + "json", "w") as outfile:
+            json.dump(std_json, outfile)
 
-    # hly_standards_csv = ["annotation/standard_coref_hly_4.csv", "annotation/standard_coref_hly_34.csv",
-    #                     "annotation/standard_coref_hly_234.csv", "annotation/standard_coref_hly_1234.csv"]
-    # for path in hly_standards_csv:
-    #     std = pd.read_csv(path)
-    #     std_json = csv_to_json(std)
-    #     with open(path[:-3] + "json", "w") as outfile:
-    #         json.dump(std_json, outfile)
+    hly_standards_csv = ["annotation/standard_coref_hly_4.csv", "annotation/standard_coref_hly_34.csv",
+                        "annotation/standard_coref_hly_234.csv", "annotation/standard_coref_hly_1234.csv"]
+    for path in hly_standards_csv:
+        std = pd.read_csv(path)
+        std_json = csv_to_json(std)
+        with open(path[:-3] + "json", "w") as outfile:
+            json.dump(std_json, outfile)
 
     fs_section_idx = [1806, 1252, 646, 0]
     hly_section_idx = [2296, 1380, 663, 0]
@@ -101,15 +101,15 @@ if __name__ == "__main__":
     # [(186, 187), (1327, 1330), (2003, 2004), (2321, 2323), (597, 598), (1767, 1767), (1393, 1396), (1807, 1813), (1045, 1047), (847, 850), (893, 894), (899, 902), (1092, 1092), (1104, 1106), (1205, 1205), (2164, 2165), (2325, 2326), (981, 982), (987, 988), (1401, 1404), (1833, 1834)]
     # [(3, 5), (105, 106), (11, 13), (1329, 1330), (1364, 1364), (1807, 1809), (2002, 2003), (2320, 2323), (17, 18), (843, 850), (898, 902), (1103, 1106), (2567, 2570), (2636, 2642), (161, 162), (446, 447), (1675, 1677), (238, 239), (1392, 1396), (1810, 1813), (1077, 1079), (917, 924), (1403, 1404), (1828, 1834)]
 
-    fs_sections = get_sections("examples/fengshou_chapter1.txt", fs_section_idx)
-    hly_sections = get_sections("examples/with_poetry/huliyuanquanzhuan_chapter1.txt", hly_section_idx)
+    # fs_sections = get_sections("examples/fengshou_chapter1.txt", fs_section_idx)
+    # hly_sections = get_sections("examples/with_poetry/huliyuanquanzhuan_chapter1.txt", hly_section_idx)
 
-    converter = opencc.OpenCC('t2s.json')
-    fs_sections_simp = [converter.convert(section) for section in fs_sections]
-    hly_sections_simp = [converter.convert(section) for section in hly_sections]
+    # converter = opencc.OpenCC('t2s.json')
+    # fs_sections_simp = [converter.convert(section) for section in fs_sections]
+    # hly_sections_simp = [converter.convert(section) for section in hly_sections]
 
-    fs_json_paths = process_sections_to_json(fs_sections_simp, "fs", fs_section_idx)
-    hly_json_paths = process_sections_to_json(hly_sections_simp, "hly", hly_section_idx)
+    # fs_json_paths = process_sections_to_json(fs_sections_simp, "fs", fs_section_idx)
+    # hly_json_paths = process_sections_to_json(hly_sections_simp, "hly", hly_section_idx)
 
     # fs_std_json = ["annotation/standard_coref_fs_4.json", "annotation/standard_coref_fs_34.json",
     #             "annotation/standard_coref_fs_234.json", "annotation/standard_coref_fs_1234.json"]
