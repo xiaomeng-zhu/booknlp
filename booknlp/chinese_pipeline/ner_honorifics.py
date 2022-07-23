@@ -1,8 +1,8 @@
 import pandas as pd
 
 honorifics = pd.read_csv("chinese_evaluation/annotation/honorifics.csv")
-# honorifics_list = list(honorifics["simplified"]) + list(honorifics["traditional"])
-honorifics_list = list(honorifics["simplified"])
+honorifics_list = list(honorifics["simplified"]) + list(honorifics["traditional"])
+# honorifics_list = list(honorifics["simplified"])
 
 def ner_match_convert(ner, sent, offset):
     # sent is a list of tokens

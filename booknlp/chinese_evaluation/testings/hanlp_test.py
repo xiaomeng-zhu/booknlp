@@ -3,10 +3,10 @@ import opencc
 import time
 converter = opencc.OpenCC('t2s.json')
 
-# with open("examples/with_poetry/hongloumeng.txt", "r") as f:
-#   sentence = f.read()
+with open("examples/with_poetry/niehaihua_excerpt.txt", "r") as f:
+  sentence = f.read()
 
-sentence = "嗨你好我是上帝。"
+# sentence = "嗨你好我是上帝。"
 sentence = converter.convert(sentence)
 # print(sentence)
 
@@ -16,10 +16,10 @@ HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tO
 # hlp = HanLP.tokenize(sentence)
 # pos_res = HanLP(tokens=hlp, tasks='pos/863') # a dictionary
 
-# print(HanLP.coreference_resolution(sentence))
-all_toks_pos_dict = HanLP(sentence, tasks="pos/pku")
+print(len(HanLP.coreference_resolution(sentence)['clusters']))
+# all_toks_pos_dict = HanLP(sentence, tasks="pos/pku")
 
-print(all_toks_pos_dict)
+# print(all_toks_pos_dict)
 
 
 """

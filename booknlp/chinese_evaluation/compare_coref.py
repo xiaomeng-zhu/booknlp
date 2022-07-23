@@ -28,7 +28,7 @@ def compare(df1, df2):
     
     print(in_2_not_in_1)
 
-def split_section(file_path, start_idx):
+def split_section_to_end(file_path, start_idx):
     with open(file_path, "r") as f:
         texts = f.read()
     char_idx = 0
@@ -44,7 +44,7 @@ def split_section(file_path, start_idx):
 def get_sections(file_path, section_idx_list):
     sections = []
     for idx in section_idx_list:
-        section = split_section(file_path, idx)
+        section = split_section_to_end(file_path, idx)
         sections.append(section)
     return sections
 

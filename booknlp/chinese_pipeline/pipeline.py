@@ -2,6 +2,7 @@ import re
 import time
 import numpy as np
 import pandas as pd
+import opencc
 from hanlp_restful import HanLPClient
 import poetry_detector
 from ner_honorifics import *
@@ -10,10 +11,15 @@ def client_set_up():
     HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
     return HanLP
 
-def text_file_to_string(file_path):
+def text_file_to_string_and_simplify(file_path):
+    converter = opencc.OpenCC("t2s.json")
     with open(file_path, "r") as f:
         text_string = f.read()
-    return text_string
+        simplified_string = converter.convert(text_string)
+        print(simplified_string[:2000])
+    with open(file_path[:-4] + "_simplified.txt", "w") as f:
+        f.write(simplified_string)
+    return simplified_string
 
 def strip_header_footer(doc):
     header_idx = -1
@@ -39,10 +45,12 @@ def strip_header_footer(doc):
 
 def split_text(text_string, max_length):
     # split by sentences and into sections around max_length (exceeds max_length to split at sentence boundary)
+    # return splitted sections as a list and the starting character index of every section
     punc = ["。", "﹗", "！", "？", "．", ". ", "\u3000", "! ", "? ", "……"]
     #quote_punc = ["」", "”", "』", "`", "'"]
     quote_punc = ["」","”", "'", "』"]
     sections = []
+    sections_indices = []
     finished = False
     
     section_start = 0
@@ -50,16 +58,19 @@ def split_text(text_string, max_length):
 
     if len(text_string) < max_length:
         sections.append(text_string)
-        return sections
+        sections_indices.append(0)
+        return sections, sections_indices
 
     while not finished:
         if len(text_string[section_start:]) <= (max_length / 2):
             # if what remains is less than half of max_length, append the string to the last section
             sections[-1] += text_string[section_start:]
+            # section indices list is not updated in this case
             finished = True
         elif (len(text_string[section_start:]) > (max_length / 2)) and (len(text_string[section_start:]) <= max_length):
             # if what remains is long enough to count as a section, append to sections list
             sections.append(text_string[section_start:])
+            sections_indices.append(section_start)
             finished = True
         else:
             # if text_string[section_end] in punc:
@@ -68,6 +79,7 @@ def split_text(text_string, max_length):
                 if text_string[section_end] in quote_punc: # extra check for quotation mark
                     section_end += 1
                 sections.append(text_string[section_start:section_end])
+                sections_indices.append(section_start)
                 # sections.append(text_string[section_start:section_end + 1])
                 section_start = section_end
                 # section_start = section_end + 1
@@ -75,17 +87,18 @@ def split_text(text_string, max_length):
             else:
                 section_end = section_end + 1
 
-    return sections
+    return sections, sections_indices
 
 def preprocess(text_file, text_title):
     HanLP = client_set_up()
 
-    text_string = text_file_to_string(text_file)
+    text_string = text_file_to_string_and_simplify(text_file)
     clean_string = strip_header_footer(text_string)
 
-    poetry_detector.extract_and_output_poetry(clean_string, text_title)
+    # temporarily disabled because of name 'writer' is not defined errors
+    # poetry_detector.extract_and_output_poetry(clean_string, text_title)
 
-    sections = split_text(clean_string, 14500) # maximum character for HanLP is 15000
+    sections, indices = split_text(clean_string, 14500) # maximum character for HanLP is 15000
 
     return sections
 
@@ -151,9 +164,27 @@ def ner(client, all_tokens, text_title):
             all_ners_converted.append(ner_converted)
 
     ner_df = pd.DataFrame(all_ners_converted, columns=["text", "cat", "start_token", "end_token"])
+    ner_char_df = ner_df[ner_df.cat == 'PERSON'][["text", "start_token", "end_token"]]
     ner_df.to_csv("chinese_pipeline/outputs/{}_entities.csv".format(text_title))
+    ner_char_df.to_csv("chinese_pipeline/outputs/{}_named_characters.csv".format(text_title))
 
     return all_ners_converted
+
+def get_unique_names(all_ners_converted):
+    ner_df = pd.DataFrame(all_ners_converted, columns=["text", "cat", "start_token", "end_token"])
+    unique_names = list(ner_df[ner_df.cat == 'PERSON']["text"].unique())
+    return unique_names
+
+
+
+# def coref(client, file_path, text_title):
+#     text_string = text_file_to_string(file_path)
+
+#     # get a list of indices on how to split the string into 1000 characters
+#     coref_sections, coref_section_offsets = get_coref_section_indices(text_string)
+#     for section in coref_sections:
+#         coref_clusters = client.coreference_resolution(section)["clusters"]
+
 
 def process(text_file, text_title):
     sections = preprocess(text_file, text_title)
@@ -163,8 +194,15 @@ def process(text_file, text_title):
 
     tokens = tokenize_and_pos(HanLP, sections, text_title)
     ners = ner(HanLP, tokens, text_title)
+    unique_names = get_unique_names(ners)
+    # np.savetxt("chinese_pipeline/coref_training_data/{}_named_characters.txt".format(text_title), unique_names)
+    with open("chinese_pipeline/coref_training_data/{}_unique_names.txt".format(text_title), "w") as writer:
+        writer.write("\n".join(unique_names))
+
     # TODO: 
     # coref
+    # corefs = get_coref_training(sections, [0, 646, 1252, 1806], unique_names)
+    # print(corefs)
     # coref_cluster
     time1 = time.perf_counter()
     print(time1-time0)
@@ -174,7 +212,13 @@ def process(text_file, text_title):
 
 if __name__ == "__main__":
     # sections = preprocess("data/fengshou_excerpt.txt")
-    file_path = "chinese_evaluation/examples/fengshou_chapter1.txt"
-    text_title = "fengshou"
+    file_paths = [
+        "chinese_evaluation/examples/with_poetry/jinpingmei_chapter1.txt",
+        "chinese_evaluation/examples/with_poetry/niehaihua_excerpt.txt",
+        "chinese_evaluation/examples/lu_xun/ah_q_chapter12.txt",
+        "chinese_evaluation/examples/linglijiguang_chapter1.txt"
+    ]
+    file_path = file_paths[3]
+    text_title = "linglijiguang"
     res = process(file_path, text_title)
 

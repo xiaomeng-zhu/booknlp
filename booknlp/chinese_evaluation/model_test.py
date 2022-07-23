@@ -331,6 +331,11 @@ def ner_process_all(model, sentences):
         return hanlp_ner(sentences, ner_sets)
 
 def hanlp_coref(section, offset, output_min_idx):
+    """
+    section: str of the section
+    offset: int that indicates how far this section is from the start of the document
+    output_min_idx: int that indicates if this mention belongs to the section of the document of interest  
+    """
     from hanlp_restful import HanLPClient
 
     HanLP = HanLPClient('https://www.hanlp.com/api', auth="MTE0NkBiYnMuaGFubHAuY29tOlZWSDJwMWRtdW85cjNKMTI=", language='zh') 
@@ -355,8 +360,11 @@ def hanlp_coref(section, offset, output_min_idx):
     for clust_list in coref_clusters:
         output_dict_cluster[cluster_idx] = []
         for string, start_tok_idx, end_tok_idx in tuple(clust_list):
+            # convert token index to character index and add offset
             start_char_idx = str(char_idx_list[start_tok_idx] + offset)
             end_char_idx = str(char_idx_list[end_tok_idx] - 1 + offset)
+
+            # filter section before outputting
             if int(start_char_idx) >= output_min_idx:
                 output_dict_cluster[cluster_idx].append(start_char_idx + "-" + end_char_idx)
         
