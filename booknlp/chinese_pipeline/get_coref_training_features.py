@@ -213,7 +213,8 @@ if __name__ == "__main__":
     #     [(5131, 5135, '大丫头玉箫'), (5132, 5133, '丫头')], \
     #     [(5170, 5172, '你家娘'), (5176, 5179, '西门大娘'), (5188, 5188, '娘')]
     # ]
-    text_title = "linglijiguang"
-    coref_pairs = get_all_cluster_pair_combinations(text_title, 3)
-    generate_feature_df(text_title, coref_pairs)
+    text_titles = ["jinpingmei", "niehaihua", "ah_q", "linglijiguang"]
+    for i in range(len(text_titles)):
+        coref_pairs = get_all_cluster_pair_combinations(text_titles[i], i)
+        generate_feature_df(text_titles[i], coref_pairs)
     
