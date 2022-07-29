@@ -8,7 +8,9 @@ html_footer = """</body>
 </html>"""
 
 def generate_html(in_file_name, out_file_name):
-
+    """
+    given a text file, generate an html file with each character and punctuation mark followed by its character index
+    """
     with open(in_file_name, "r") as f:
         string = f.readlines()
 

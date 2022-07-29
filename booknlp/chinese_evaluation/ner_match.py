@@ -12,6 +12,7 @@ def ner_match_percentage(ners1, ners2):
     return match_count/len(ners2), mismatch
 
 def ner_metrics(ners_model, ners_std):
+    # given two lists of named entities, calculate precision, recall, and F1
     tp = 0
     fp = 0
     tn = 0 # always 0
@@ -36,6 +37,8 @@ def ner_df_to_list(ner_df):
     return ner_list
 
 def match_idx_with_char(input_df, sent_list):
+    # original named entity list does not contain strings, thus adding this column to the df
+    # end_idx is inclusive
     res = []
     ner_list = list(input_df.itertuples(index=False, name=None))
     for sent, start_idx, end_idx, type in ner_list:

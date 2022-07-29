@@ -41,11 +41,11 @@ def convert_to_standard_char_index(text_string):
             clean_string += l
     return clean_string
 
-"""
-input: cluster to be examined, list of tuples; ner results, list of (string, tag, start_idx, end_idx)
-output: bool depending on whether or not the string follows character filtering rules
-"""
 def is_character(cluster, names_list):
+    """
+    input: cluster to be examined, list of tuples; ner results, list of (string, tag, start_idx, end_idx)
+    output: bool depending on whether or not the string follows character filtering rules
+    """
     pronouns = ["他", "她", "祂", "你", "我", "汝", "俺", "自己", "大家", "咱"]
     other_indicators = ["人", "者", "神", "仙", "徒", "群", "位", "士"]
     honorifics = pd.read_csv("chinese_evaluation/annotation/honorifics.csv")
@@ -115,7 +115,7 @@ def get_names_list(text_name):
     return [name.strip() for name in unique_names]
 
 def get_all_coref_lists(client, sections, offsets_list, names_list):
-    # for all coref sections, get coref list and combine
+    # for all coref sections, get coref list and combine into a big list
     all_clusters_list = []
     for i in range(len(sections)):
         clusters_list = get_coref_list_from_section(client, sections[i], offsets_list[i], names_list)

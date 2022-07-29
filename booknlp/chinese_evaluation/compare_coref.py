@@ -6,6 +6,9 @@ from model_test import hanlp_coref
 from coref_match import csv_to_json
 
 def compare(df1, df2):
+    """
+    output entries that are in one dataframe but not in the other
+    """
     df1 = df1[["start_idx", "end_idx"]]
     df1 = df1.to_records(index=False)
     df1 = list(df1)
@@ -29,9 +32,13 @@ def compare(df1, df2):
     print(in_2_not_in_1)
 
 def split_section_to_end(file_path, start_idx):
+    """
+    given a start character index, return the slice of the text from the given chracter index to the very end
+    """
     with open(file_path, "r") as f:
         texts = f.read()
     char_idx = 0
+    # need to enumerate all characters in the string because the coreference annotation indices only count characters and punctuations
     for l_idx, l in enumerate(texts):
         if l.isspace() or l == "　":
             pass
@@ -42,6 +49,7 @@ def split_section_to_end(file_path, start_idx):
     return ""
 
 def get_sections(file_path, section_idx_list):
+    # useful for getting sections of 4, 34, 234, 1234
     sections = []
     for idx in section_idx_list:
         section = split_section_to_end(file_path, idx)
@@ -53,8 +61,16 @@ def process_sections_to_json(section_list, text_name, idx_list):
     json_paths = []
 
     for i in range(len(section_list)):
-        coref_dict = hanlp_coref(section_list[i], idx_list[i], idx_list[0])
+        # current code is used to generate corefon4
+        # last argument gets the first index of the indices list 
+        # because we are only interested in hanlp output on the last section when doing "corefon4"
+        coref_dict = hanlp_coref(section_list[i], idx_list[i], idx_list[0]) 
         output_name = "annotation/hanlp_corefon4_{}_{}.json".format(text_name, counts[3-i:])
+
+        # for just "coref", use the following two lines instead:
+        # coref_dict = hanlp_coref(section_list[i], idx_list[i], idx_list[i]) 
+        # output_name = "annotation/hanlp_coref_{}_{}.json".format(text_name, counts[3-i:])
+
         json_paths.append(output_name)
 
         with open(output_name, "w") as outfile:
@@ -64,6 +80,7 @@ def process_sections_to_json(section_list, text_name, idx_list):
     return json_paths
 
 def compare_to_standard(json_paths, std_json, text_name):
+    # using os.system to call scorch does not really work, need to type into console
     for idx, path in enumerate(json_paths):
         suffix = "_scores_"+str(idx+1)+".txt"
         os.system("scorch {} {} {}".format(path, std_json, text_name+suffix))

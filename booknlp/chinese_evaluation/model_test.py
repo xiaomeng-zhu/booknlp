@@ -207,14 +207,6 @@ def process_tokenized_sents(sentences, model, tokenized):
     else:
         return None
 
-def output_sents_txt(file_name, tokenized, model, score):
-    with open(file_name, "a") as f:
-        f.write(model+"\n")
-        for sent in tokenized:
-            f.write(sent+"\n")
-        f.write("The {} tokenizer results in {} number of edits\n".format(model, score))
-        f.write("\n")
-
 def calculate_score(sentences, standards, model):
     # calculate the average minimum edit distance for all sentences for tokenization comparison
 
@@ -334,7 +326,7 @@ def hanlp_coref(section, offset, output_min_idx):
     """
     section: str of the section
     offset: int that indicates how far this section is from the start of the document
-    output_min_idx: int that indicates if this mention belongs to the section of the document of interest  
+    output_min_idx: int that indicates the minimum character index of mentions to output
     """
     from hanlp_restful import HanLPClient
 

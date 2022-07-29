@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 
-# convert csv into json
+# convert annotation csv to json
 def csv_to_json(pd_df):
     json_dict = {}
     json_dict["type"] = "clusters"

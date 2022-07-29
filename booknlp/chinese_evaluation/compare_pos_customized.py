@@ -1,4 +1,8 @@
-from model_test import *
+import pandas as pd
+import opencc
+from pos_match import parse_tok_pos, pos_mismatch
+from pos_map import convert_tokposlist_to_general
+from model_test import process_tokenized_sents
 
 model_list = [
     # "jieba",

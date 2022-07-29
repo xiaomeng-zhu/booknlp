@@ -1,0 +1,1 @@
+This directory contains files for calculating inter-annotator agreement for coreference resolution, which are generated using chinese_evaluation/coref_match.py

@@ -12,6 +12,12 @@ def client_set_up():
     return HanLP
 
 def text_file_to_string_and_simplify(file_path):
+    """
+    Reads a file, converts traditional Chinese into simplified, stores it in a file, and outputs
+    the simplified contents of the file as a string.
+    Input: path to the text file to read, string
+    Output: string containing simplified Chinese
+    """
     converter = opencc.OpenCC("t2s.json")
     with open(file_path, "r") as f:
         text_string = f.read()
@@ -22,6 +28,11 @@ def text_file_to_string_and_simplify(file_path):
     return simplified_string
 
 def strip_header_footer(doc):
+    """
+    Strips the Project Gutenberg header and footer from a file.
+    Input: the text as a string
+    Output: clean version of the text
+    """
     header_idx = -1
     footer_idx = len(doc)
     try:
@@ -44,6 +55,11 @@ def strip_header_footer(doc):
     return res
 
 def split_text(text_string, max_length):
+    """
+    Splits the text by sentences into sections around max_length (exceeds max_length to split at sentence boundary)
+    Input: the text as a string, the maximum length of each section
+    Output: sections as a list of strings, starting character index of each section
+    """
     # split by sentences and into sections around max_length (exceeds max_length to split at sentence boundary)
     # return splitted sections as a list and the starting character index of every section
     punc = ["。", "﹗", "！", "？", "．", ". ", "\u3000", "! ", "? ", "……"]
@@ -90,6 +106,10 @@ def split_text(text_string, max_length):
     return sections, sections_indices
 
 def preprocess(text_file, text_title):
+    """
+    Input: path to the text, name of the text
+    Output: cleaned sections
+    """
     HanLP = client_set_up()
 
     text_string = text_file_to_string_and_simplify(text_file)
@@ -103,6 +123,11 @@ def preprocess(text_file, text_title):
     return sections
 
 def tokenize_and_pos(client, sections, text_title):
+    """
+    Produces a file containing the sentence ID, token ID, and POS tag of each token
+    Input: HanLP client, previously split sections, name of the text
+    Output: all tokens as a list of lists of token strings, separated by sentence
+    """
     all_toks = [] # list of lists of token
     all_poss = []
     all_toks_indices = []
@@ -143,6 +168,9 @@ def tokenize_and_pos(client, sections, text_title):
     return all_toks
 
 def produce_offset(all_tokens):
+    """
+    
+    """
     # input is a list of integers:
     res = []
     sum = 0

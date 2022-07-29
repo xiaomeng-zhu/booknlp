@@ -1,3 +1,6 @@
+"""
+used for ner annotatioan
+"""
 import pandas as pd
 
 with open("annotation_50_batch2.txt", "r") as f:

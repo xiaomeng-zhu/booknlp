@@ -1,4 +1,8 @@
-from model_test import *
+import opencc
+import pandas as pd
+from pos_map import convert_poslist_to_general
+from model_test import process_untokenized_sents
+from min_edit_distance import min_edit_distance
 
 model_list = [
     "jieba",
