@@ -168,16 +168,51 @@ def get_feature_vector(tokenizer, model, cluster_pair):
     
     return vector
 
+def filter_coref_lists_by_end_index(coref_lists):
+    for cluster in coref_lists:
+        # all_prev_indices = []
+        to_remove = [] # list of mentions to remove
+        # print(cluster)
+        for idx, (start_idx, end_idx, text) in enumerate(cluster):
+            if idx != 0:
+                prev_start, prev_end, prev_text = cluster[idx-1]
+                if prev_start >= start_idx and prev_end <= end_idx: # a, b, c
+                    # remove prev
+                    to_remove.append((prev_start, prev_end, prev_text))
+                elif start_idx >= prev_start and end_idx <= prev_end:
+                    # remove current
+                    to_remove.append((start_idx, end_idx, text))
+            # remove_current = False
+            # if is the first mention, only append
+            # if idx == 0:
+            #     all_prev_indices.append((start_idx, end_idx, text))
+            # else:
+            #     # check through existing previous mentions for nested mentions
+            #     for (existing_start, existing_end, existing_text) in all_prev_indices:
+            #         if existing_start <= start_idx and existing_end >= end_idx:
+            #             to_remove.append((start_idx, end_idx, text))
+            #             remove_current = True
+            #     if remove_current == False:
+            #         all_prev_indices.append((start_idx, end_idx, text))
+            # print(all_prev_indices)
+        for remove_this in to_remove:
+            # print(remove_this)
+            cluster.remove(remove_this)
+    return coref_lists
+            
+
 def get_all_cluster_pair_combinations(text_title, text_index):
     # the four functions below are imported from coref_preprocessing.py
     HanLP = create_hanlp_client()
     names_list = get_names_list(text_title)
     coref_sections = split_coref_sections(file_paths[text_index], offsets_list[text_index])
     coref_lists = get_all_coref_lists(HanLP, coref_sections, offsets_list[text_index], names_list)
+    coref_lists = filter_coref_lists_by_end_index(coref_lists)
     
     coref_combinations =  list(combinations(coref_lists, 2))
     coref_comb_df = pd.DataFrame(coref_combinations)
-    coref_comb_df.to_csv("chinese_pipeline/coref_training_data/{}_all_coref_comb.csv".format(text_title))
+    # coref_comb_df.to_csv("chinese_pipeline/coref_training_data/{}_all_coref_comb.csv".format(text_title))
+    coref_comb_df.to_csv("chinese_pipeline/coref_training_data/{}_all_coref_comb_end_filtered.csv".format(text_title))
     return coref_combinations
 
 def min_max_scaling(series):
@@ -213,8 +248,14 @@ if __name__ == "__main__":
     #     [(5131, 5135, '大丫头玉箫'), (5132, 5133, '丫头')], \
     #     [(5170, 5172, '你家娘'), (5176, 5179, '西门大娘'), (5188, 5188, '娘')]
     # ]
+
     text_titles = ["jinpingmei", "niehaihua", "ah_q", "linglijiguang"]
     for i in range(len(text_titles)):
+        print(i)
         coref_pairs = get_all_cluster_pair_combinations(text_titles[i], i)
-        generate_feature_df(text_titles[i], coref_pairs)
-    
+        # generate_feature_df(text_titles[i], coref_pairs)
+
+    # # some testing code
+    # # test_list = [[(3101, 3105, '一个小厮儿'), (3103, 3104, '小厮'), (3169, 3169, '他'), (3171, 3171, '他')]]
+    # test_list = [[(1293, 1306, "赵太爷的儿子茂才〔１２〕先生"), (1297, 1298, '儿子'), (1312, 1314, '如此公'), (1506, 1508, '茂才公')]]
+    # print(filter_coref_lists_by_end_index(test_list))

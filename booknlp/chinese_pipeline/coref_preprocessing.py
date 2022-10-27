@@ -121,13 +121,28 @@ def get_all_coref_lists(client, sections, offsets_list, names_list):
         clusters_list = get_coref_list_from_section(client, sections[i], offsets_list[i], names_list)
         all_clusters_list += clusters_list
 
-    print(all_clusters_list)
+    # print(all_clusters_list)
     return all_clusters_list
 
-
+def all_coref_to_file(text_name, all_coref_list):
+    # f_name = "all_coref_" + text_name
+    # out = pd.DataFrame(columns=["id", "mention", "start_idx", "end_idx"])
+    # with open(f_name, 'w') as f:
+    #     for i in len(range(all_coref)):
+    #         cluster = all_coref[i]
+    #         for mention in cluster:
+    #             out.append([i, mention[2], mention[0], mention[1]])
+    #     out.to_csv()
+    out = pd.DataFrame(columns=["id", "start_idx", "end_idx", "mention"])
+    for idx, cluster in enumerate(all_coref_list):
+        cluster_list_with_idx = [(idx, start_idx, end_idx, text) for (start_idx, end_idx, text) in cluster]
+        print(cluster_list_with_idx)
+        current_df = pd.DataFrame(cluster_list_with_idx, columns=["id", "start_idx", "end_idx", "mention"])
+        out = pd.concat([out, current_df])
+    out.to_csv("chinese_pipeline/coref_training_data/"+text_name+"_hanlp_res.csv")
 
 if __name__ == "__main__":
-    text_name = "jinpingmei"
+    text_name = "linglijiguang"
     HanLP = create_hanlp_client()
     names_list = get_names_list(text_name)
 
@@ -145,6 +160,6 @@ if __name__ == "__main__":
         "chinese_evaluation/examples/linglijiguang_chapter1_simplified.txt"
     ]
 
-    coref_sections = split_coref_sections(file_paths[0], offsets_list[0])
-    print(get_all_coref_lists(HanLP, coref_sections, offsets_list[0], names_list))
-    
+    coref_sections = split_coref_sections(file_paths[3], offsets_list[3])
+    all_coref_list = get_all_coref_lists(HanLP, coref_sections, offsets_list[3], names_list)
+    all_coref_to_file(text_name, all_coref_list)
